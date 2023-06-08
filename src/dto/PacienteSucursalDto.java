@@ -5,6 +5,18 @@ public class PacienteSucursalDto {
     private Integer numeroSucursal;
     private String nombrePaciente;
     private String nombreSucursal;
+    private Integer edad;
+    private String apellido;
+    private String domicilio;
+    private String mail;
+    public PacienteSucursalDto(Integer idPaciente, String nombrePaciente, String apellido, Integer edad, String domicilio, String mail ) {
+        this.idPaciente = idPaciente;
+        this.nombrePaciente = nombrePaciente;
+        this.edad = edad;
+        this.apellido = apellido;
+        this.domicilio = domicilio;
+        this.mail = mail;
+    }
 
     public PacienteSucursalDto(Integer idPaciente, Integer numeroSucursal, String nombrePaciente, String nombreSucursal) {
         this.idPaciente = idPaciente;
@@ -40,5 +52,37 @@ public class PacienteSucursalDto {
 
     public void setNombreSucursal (String name) {
         this.nombreSucursal = name;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
+    public String getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(String domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }

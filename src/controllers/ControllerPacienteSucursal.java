@@ -64,6 +64,9 @@ public class ControllerPacienteSucursal {
         Paciente paciente = new Paciente();
         paciente.setDni(dto.getIdPaciente());
         paciente.setNombre(dto.getNombrePaciente());
+        paciente.setDomicilio(dto.getDomicilio());
+        paciente.setMail(dto.getMail());
+        paciente.setEdad(dto.getEdad());
         return paciente;
     }
 
@@ -75,7 +78,7 @@ public class ControllerPacienteSucursal {
     }
 
     public void addPaciente(PacienteSucursalDto dto) throws Exception {
-        if(pacienteExistente(dto.getIdPaciente()) == false){
+        if(pacienteExistente(dto.getIdPaciente()).equals(false)){
             pacientesArrayList.add(dtoToPaciente(dto));
 //            modelDao.save(toModel(dto));
         }
@@ -106,18 +109,27 @@ public class ControllerPacienteSucursal {
     }
 
     public void deleteByPacienteId(Integer id){
-        int index = getPacientetIndex(id);
+        int index = getPacienteIndex(id);
         if(index != -1){
             pacientesArrayList.remove(index);
         }
     }
 
-    private int getPacientetIndex(Integer id){
+    private int getPacienteIndex(Integer id){
         for (int i=0;i<pacientesArrayList.size();i++){
             if(pacientesArrayList.get(i).getId().equals(id)){
                 return i;
             }
         }
         return -1;
+    }
+
+    public ArrayList<String> getListaPacientes () {
+        ArrayList<String> names = new ArrayList<>();
+        for (Paciente paciente: pacientesArrayList) {
+            names.add(paciente.getNombre());
+        }
+
+        return names;
     }
 }

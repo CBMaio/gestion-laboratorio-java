@@ -30,9 +30,6 @@ public class Paciente {
         return id;
     }
 
-    public Integer getDNI () {
-        return dni;
-    }
     public String getNombreCompleto () {
         return nombre + ' ' + apellido;
     }
@@ -58,6 +55,38 @@ public class Paciente {
     }
     public void setMail (String mail) {
         this.mail = mail;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public Integer getDni() {
+        return dni;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 }
 
