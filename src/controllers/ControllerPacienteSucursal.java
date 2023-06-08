@@ -123,13 +123,4 @@ public class ControllerPacienteSucursal {
         }
         return -1;
     }
-
-    public ArrayList<String> getListaPacientes () {
-        ArrayList<String> names = new ArrayList<>();
-        for (Paciente paciente: pacientesArrayList) {
-            names.add(paciente.getNombre());
-        }
-
-        return names;
-    }
 }

@@ -1,5 +1,6 @@
 package Vistas;
 
+import Vistas.utils.ListaModel;
 import controllers.ControllerPacienteSucursal;
 import dto.PacienteSucursalDto;
 
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class PacientesAltaScreen extends JDialog {
     private JPanel pnlPrincipal;
@@ -34,8 +36,8 @@ public class PacientesAltaScreen extends JDialog {
     private JTextField mailInput;
     private JTextField domicilioInput;
     private JButton altaBtn;
-
-    public PacientesAltaScreen (Window owner, String titulo) {
+    private ListaModel model;
+    public PacientesAltaScreen (Window owner, String titulo, ListaModel model) {
         super(owner, titulo);
         this.setContentPane(pnlPrincipal);
         this.setModal(true);
@@ -43,6 +45,7 @@ public class PacientesAltaScreen extends JDialog {
         this.setSize(400,400);
         this.setLocationRelativeTo(null);
         this.altaBtnAction();
+        this.model = model;
     }
 
     private void altaBtnAction () {
@@ -50,6 +53,7 @@ public class PacientesAltaScreen extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(null, edadInput.getText() );
+                model.add(nombreInput.getText());
             }
         });
     }
