@@ -32,8 +32,6 @@ public class ControllerPacienteSucursal {
 
     public static ArrayList<Paciente> getPacientesList() {
         ArrayList pacientes = new ArrayList();
-
-        pacientes.add(new Paciente());
         return pacientes;
     }
 
@@ -79,6 +77,7 @@ public class ControllerPacienteSucursal {
         paciente.setDomicilio(dto.getDomicilio());
         paciente.setMail(dto.getMail());
         paciente.setEdad(dto.getEdad());
+        paciente.setApellido(dto.getApellido());
         return paciente;
     }
 
@@ -89,11 +88,14 @@ public class ControllerPacienteSucursal {
         return sucursal;
     }
 
-    public void addPaciente(PacienteSucursalDto dto) throws Exception {
+    public boolean addPacienteExitosamente(PacienteSucursalDto dto) throws Exception {
         if(pacienteExistente(dto.getIdPaciente()).equals(false)){
             pacientesArrayList.add(dtoToPaciente(dto));
+            return true;
 //            modelDao.save(toModel(dto));
         }
+
+        return false;
     }
 
     public void addSucursal (PacienteSucursalDto dto) throws Exception {

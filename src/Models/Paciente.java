@@ -46,7 +46,7 @@ public class Paciente {
         this.nombre = name;
     }
     public void setDni (Integer dni) {
-        this.dni = dni;
+        this.id = dni;
         this.dni = dni;
     }
 
@@ -82,7 +82,7 @@ public class Paciente {
     }
 
     public String getApellido() {
-        return apellido;
+        return this.apellido;
     }
 
     public void setApellido(String apellido) {

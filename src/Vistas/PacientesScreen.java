@@ -62,7 +62,7 @@ public class PacientesScreen extends JDialog{
         ArrayList<Paciente> pacientes = ControllerPacienteSucursal.getInstance().mostrarPaciente();
         ListaModel lista = new ListaModel();
         for (Paciente item : pacientes) {
-            lista.add(item.getNombre());
+            lista.add(item.getNombreCompleto());
         }
 
         return lista;
