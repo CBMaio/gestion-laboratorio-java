@@ -1,6 +1,7 @@
 package Vistas;
 
 import Vistas.utils.ListaModel;
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import controllers.ControllerPacienteSucursal;
 import dto.PacienteSucursalDto;
 
@@ -52,8 +53,11 @@ public class PacientesAltaScreen extends JDialog {
         altaBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, edadInput.getText() );
-                model.add(nombreInput.getText());
+                try {
+                    createPaciente(dniInput.getText(), nombreInput.getText(), apellidoInput.getText(), edadInput.getText(), domicilioInput.getText(), mailInput.getText());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
@@ -65,6 +69,7 @@ public class PacientesAltaScreen extends JDialog {
             PacienteSucursalDto pacienteDto = new PacienteSucursalDto(dniToNumber,nombre,apellido,edadToNumber,domicilio,mail);
             ControllerPacienteSucursal controllerPaciente = ControllerPacienteSucursal.getInstance();
             controllerPaciente.addPaciente(pacienteDto);
+            JOptionPane.showMessageDialog(null, "Alta exitosa!");
         }
     }
 

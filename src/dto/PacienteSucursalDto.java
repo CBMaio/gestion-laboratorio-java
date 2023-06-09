@@ -1,5 +1,9 @@
 package dto;
 
+import Models.Paciente;
+
+import java.util.ArrayList;
+
 public class PacienteSucursalDto {
     private Integer idPaciente;
     private Integer numeroSucursal;
@@ -9,6 +13,7 @@ public class PacienteSucursalDto {
     private String apellido;
     private String domicilio;
     private String mail;
+    private ArrayList<Paciente> pacientesList;
     public PacienteSucursalDto(Integer idPaciente, String nombrePaciente, String apellido, Integer edad, String domicilio, String mail ) {
         this.idPaciente = idPaciente;
         this.nombrePaciente = nombrePaciente;

@@ -4,11 +4,13 @@ import Models.Paciente;
 import Models.Sucursal;
 import dto.PacienteSucursalDto;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class ControllerPacienteSucursal {
     private static ControllerPacienteSucursal CONTROLLER = null;
     private static ArrayList<Paciente> pacientesArrayList;
+
     private static ArrayList<Sucursal> sucursalesArrayList;
     private ControllerPacienteSucursal(){};
 
@@ -30,9 +32,19 @@ public class ControllerPacienteSucursal {
 
     public static ArrayList<Paciente> getPacientesList() {
         ArrayList pacientes = new ArrayList();
+
         pacientes.add(new Paciente());
         return pacientes;
     }
+
+    public ArrayList<Paciente> mostrarPaciente () {
+        if (pacientesArrayList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return pacientesArrayList;
+    }
+
 
     public static PacienteSucursalDto modelsToDto(Paciente model, Sucursal modelSucursal){
         return new PacienteSucursalDto(model.getId(), modelSucursal.getNumeroSucursal(), model.getNombreCompleto(), modelSucursal.getNombre());
@@ -100,11 +112,16 @@ public class ControllerPacienteSucursal {
         return false;
     }
     public Boolean pacienteExistente (Integer id) {
-        for (Paciente model: pacientesArrayList) {
-            if (model.getId().equals(id)){
-                return true;
+        if (pacientesArrayList.size() >= 1) {
+            for (Paciente model: pacientesArrayList) {
+                if(model.getId() != null) {
+                    if (model.getId().equals(id)){
+                        return true;
+                    }
+                }
             }
         }
+
         return  false;
     }
 

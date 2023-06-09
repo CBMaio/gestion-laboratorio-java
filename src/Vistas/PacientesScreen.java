@@ -1,12 +1,16 @@
 package Vistas;
 
+import Models.Paciente;
 import Vistas.Listas.ListaPacientes;
 import Vistas.utils.ListaModel;
+import controllers.ControllerPacienteSucursal;
+import dto.PacienteSucursalDto;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 public class PacientesScreen extends JDialog{
@@ -18,7 +22,6 @@ public class PacientesScreen extends JDialog{
     private JButton modificacion;
     private JButton lista;
     private PacientesScreen self;
-
     private ListaModel model = new ListaModel();
 
     public PacientesScreen (Window owner, String title) {
@@ -44,10 +47,24 @@ public class PacientesScreen extends JDialog{
         lista.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    model = getPacientesParaMostrar();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
                 ListaPacientes lista = new ListaPacientes(self, "Pacientes", model);
                 lista.setVisible(true);
             }
         });
+    }
 
+    private ListaModel getPacientesParaMostrar () throws Exception {
+        ArrayList<Paciente> pacientes = ControllerPacienteSucursal.getInstance().mostrarPaciente();
+        ListaModel lista = new ListaModel();
+        for (Paciente item : pacientes) {
+            lista.add(item.getNombre());
+        }
+
+        return lista;
     }
 }
