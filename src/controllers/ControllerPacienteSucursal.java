@@ -92,7 +92,6 @@ public class ControllerPacienteSucursal {
         if(pacienteExistente(dto.getIdPaciente()).equals(false)){
             pacientesArrayList.add(dtoToPaciente(dto));
             return true;
-//            modelDao.save(toModel(dto));
         }
 
         return false;
@@ -141,5 +140,25 @@ public class ControllerPacienteSucursal {
             }
         }
         return -1;
+    }
+
+    public PacienteSucursalDto getPacienteDTO (Integer dni) {
+        for (int i=0;i<pacientesArrayList.size();i++){
+            if(pacientesArrayList.get(i).getId().equals(dni)){
+                Paciente selected = pacientesArrayList.get(i);
+                return new PacienteSucursalDto(selected.getId(), selected.getNombre(), selected.getApellido(), selected.getEdad(), selected.getDomicilio(), selected.getMail());
+            }
+        }
+
+        return null;
+    }
+
+    public void modificarPaciente (PacienteSucursalDto dto) {
+        Integer indexPaciente = getPacienteIndex(dto.getIdPaciente());
+        pacientesArrayList.get(indexPaciente).setDni(dto.getIdPaciente());
+        pacientesArrayList.get(indexPaciente).setNombre(dto.getNombrePaciente());
+        pacientesArrayList.get(indexPaciente).setApellido(dto.getApellido());
+        pacientesArrayList.get(indexPaciente).setDomicilio(dto.getDomicilio());
+        pacientesArrayList.get(indexPaciente).setMail(dto.getMail());
     }
 }

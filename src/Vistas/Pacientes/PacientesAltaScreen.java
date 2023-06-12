@@ -1,4 +1,4 @@
-package Vistas;
+package Vistas.Pacientes;
 
 import Models.Paciente;
 import Vistas.utils.ListaModel;
@@ -40,7 +40,7 @@ public class PacientesAltaScreen extends JDialog {
     private JTextField mailInput;
     private JTextField domicilioInput;
     private JButton altaBtn;
-    public PacientesAltaScreen (Window owner, String titulo, ListaModel model) {
+    public PacientesAltaScreen (Window owner, String titulo) {
         super(owner, titulo);
         this.setContentPane(pnlPrincipal);
         this.setModal(true);

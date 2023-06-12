@@ -1,10 +1,9 @@
-package Vistas;
+package Vistas.Pacientes;
 
 import Models.Paciente;
 import Vistas.Listas.ListaPacientes;
 import Vistas.utils.ListaModel;
 import controllers.ControllerPacienteSucursal;
-import dto.PacienteSucursalDto;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,14 +32,13 @@ public class PacientesScreen extends JDialog{
         this.setLocationRelativeTo(null);
         this.asociarEventos();
         this.self = this;
-
     }
 
     private void asociarEventos () {
         alta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PacientesAltaScreen altaDePaciente = new PacientesAltaScreen(self, "Dar de alta un paciente", model);
+                PacientesAltaScreen altaDePaciente = new PacientesAltaScreen(self, "Pacientes");
                 altaDePaciente.setVisible(true);
             }
         });
@@ -54,6 +52,20 @@ public class PacientesScreen extends JDialog{
                 }
                 ListaPacientes lista = new ListaPacientes(self, "Pacientes", model);
                 lista.setVisible(true);
+            }
+        });
+        baja.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PacientesBajaScreen bajaDePaciente = new PacientesBajaScreen(self, "Pacientes");
+                bajaDePaciente.setVisible(true);
+            }
+        });
+        modificacion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BuscarPaciente modificacionPaciente = new BuscarPaciente(self, "Pacientes");
+                modificacionPaciente.setVisible(true);
             }
         });
     }
