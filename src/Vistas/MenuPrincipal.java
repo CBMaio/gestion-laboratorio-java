@@ -1,6 +1,7 @@
 package Vistas;
 
 import Vistas.Pacientes.PacientesScreen;
+import Vistas.Sucursales.SucursalScreen;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -31,6 +32,14 @@ public class MenuPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 PacientesScreen pacientesScreen = new PacientesScreen(self, "Menu Pacientes");
                 pacientesScreen.setVisible(true);
+            }
+        });
+
+        sucursalesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SucursalScreen sucularScreen = new SucursalScreen(self, "Menu Sucursales");
+                sucularScreen.setVisible(true);
             }
         });
     }

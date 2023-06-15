@@ -85,6 +85,7 @@ public class ControllerPacienteSucursal {
         Sucursal sucursal = new Sucursal();
         sucursal.setNumeroSucursal(dto.getNumeroSucursal());
         sucursal.setNombreSucursal(dto.getNombreSucursal());
+        sucursal.setDireccion(dto.getDireccionSucursal());
         return sucursal;
     }
 
@@ -97,16 +98,23 @@ public class ControllerPacienteSucursal {
         return false;
     }
 
-    public void addSucursal (PacienteSucursalDto dto) throws Exception {
-        if(sucursalExistente(dto.getNumeroSucursal()) == false) {
+    public boolean addSucursalExitosamente (PacienteSucursalDto dto) throws Exception {
+        if(sucursalExistente(dto.getNumeroSucursal()).equals(false)) {
             sucursalesArrayList.add(dtoToSucursal(dto));
+            return true;
         }
+
+        return false;
     }
 
     public Boolean sucursalExistente (Integer numeroSucursal) {
-        for (Sucursal model: sucursalesArrayList) {
-            if (model.getNumeroSucursal().equals(numeroSucursal)) {
-                return true;
+        if (sucursalesArrayList.size() >= 1) {
+            for (Sucursal model : sucursalesArrayList) {
+                if (model.getNumeroSucursal() != null) {
+                    if (model.getNumeroSucursal().equals(numeroSucursal)) {
+                        return true;
+                    }
+                }
             }
         }
 

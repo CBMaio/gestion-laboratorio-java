@@ -1,6 +1,7 @@
 package Vistas.Pacientes;
 
 import Models.Paciente;
+import Vistas.utils.Utils;
 import controllers.ControllerPacienteSucursal;
 import dto.PacienteSucursalDto;
 
@@ -46,7 +47,7 @@ public class BuscarPaciente extends JDialog {
     }
 
     private void buscarPaciente (String dni) throws Exception {
-        if (isNumeric(dni)) {
+        if (Utils.isNumeric(dni)) {
             ControllerPacienteSucursal controller = ControllerPacienteSucursal.getInstance();
             if (controller.pacienteExistente(Integer.parseInt(dni))) {
                 PacienteSucursalDto pacienteDTO = controller.getPacienteDTO(Integer.parseInt(dni));
@@ -61,15 +62,4 @@ public class BuscarPaciente extends JDialog {
         dniInput.setText(null);
         dniInput.requestFocus();
     }
-
-    private Boolean isNumeric (String strNumber) {
-        try {
-            Integer.parseInt(strNumber);
-            return true;
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "Campo numérico esperado" );
-            return false;
-        }
-    }
-
 }

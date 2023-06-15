@@ -1,6 +1,7 @@
 package Vistas.Pacientes;
 
 import Models.Paciente;
+import Vistas.utils.Utils;
 import controllers.ControllerPacienteSucursal;
 import dto.PacienteSucursalDto;
 
@@ -57,7 +58,7 @@ public class PacientesModificacionScreen extends JDialog{
         modificarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (isNumeric(dniInput.getText()) && isNumeric(edadInput.getText())) {
+                if (Utils.isNumeric(dniInput.getText()) && Utils.isNumeric(edadInput.getText())) {
                     PacienteSucursalDto paciente = new PacienteSucursalDto(
                             Integer.parseInt(dniInput.getText()),
                             nombreInput.getText(),
@@ -79,15 +80,4 @@ public class PacientesModificacionScreen extends JDialog{
             }
         });
     }
-
-    private Boolean isNumeric (String strNumber) {
-        try {
-            Integer.parseInt(strNumber);
-            return true;
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "Campo numérico esperado" );
-            return false;
-        }
-    }
-
 }

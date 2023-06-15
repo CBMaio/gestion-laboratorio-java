@@ -2,10 +2,12 @@ package Vistas.Pacientes;
 
 import Models.Paciente;
 import Vistas.utils.ListaModel;
+import Vistas.utils.Utils;
 import com.sun.xml.internal.ws.api.ha.StickyFeature;
 import controllers.ControllerPacienteSucursal;
 import dto.PacienteSucursalDto;
 
+import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -56,7 +58,6 @@ public class PacientesAltaScreen extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     createPaciente(dniInput.getText(), nombreInput.getText(), apellidoInput.getText(), edadInput.getText(), domicilioInput.getText(), mailInput.getText());
-                    resetForm();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -65,12 +66,12 @@ public class PacientesAltaScreen extends JDialog {
     }
 
     private void createPaciente (String dni, String nombre, String apellido, String edad, String domicilio, String mail) throws Exception {
-        if (isAnyFieldEmpty(dni,nombre, apellido, edad, domicilio, mail)) {
+        if (Utils.isAnyFieldEmpty(dni,nombre, apellido, edad, domicilio, mail)) {
             JOptionPane.showMessageDialog(null, "Por favor complete todos los campos");
             return;
         }
 
-        if (isNumeric(dni) && isNumeric(edad)) {
+        if (Utils.isNumeric(dni) && Utils.isNumeric(edad)) {
             int dniToNumber = Integer.parseInt(dni);
             int edadToNumber = Integer.parseInt(edad);
             PacienteSucursalDto pacienteDto = new PacienteSucursalDto(dniToNumber,nombre,apellido,edadToNumber,domicilio,mail);
@@ -78,26 +79,8 @@ public class PacientesAltaScreen extends JDialog {
             boolean agregadoCorrectamente = controllerPaciente.addPacienteExitosamente(pacienteDto);
             String message = agregadoCorrectamente ? "Alta exitosa!" : "Paciente ya existente";
             JOptionPane.showMessageDialog(null, message);
+            resetForm();
         }
-    }
-
-    private Boolean isNumeric (String strNumber) {
-        try {
-            Integer.parseInt(strNumber);
-            return true;
-        } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, "Campo numérico esperado" );
-            return false;
-        }
-    }
-
-    private boolean isAnyFieldEmpty(String... values) {
-        for (String value : values) {
-            if (value.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void resetForm () {

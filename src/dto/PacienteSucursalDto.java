@@ -9,12 +9,14 @@ public class PacienteSucursalDto {
     private Integer numeroSucursal;
     private String nombrePaciente;
     private String nombreSucursal;
+    private String direccionSucursal;
     private Integer edad;
     private String apellido;
     private String domicilio;
     private String mail;
     private ArrayList<Paciente> pacientesList;
     public PacienteSucursalDto(Integer idPaciente, String nombrePaciente, String apellido, Integer edad, String domicilio, String mail ) {
+        //solo datos de paciente
         this.idPaciente = idPaciente;
         this.nombrePaciente = nombrePaciente;
         this.edad = edad;
@@ -30,6 +32,12 @@ public class PacienteSucursalDto {
         this.nombreSucursal = nombreSucursal;
     }
 
+    public PacienteSucursalDto (Integer numeroSucursal, String direccionSucursal, String nombreSucursal) {
+        //solo datos sucursal
+        this.numeroSucursal = numeroSucursal;
+        this.direccionSucursal = direccionSucursal;
+        this.nombreSucursal = nombreSucursal;
+    }
     public Integer getIdPaciente() { return idPaciente; }
 
     public Integer getNumeroSucursal() {
@@ -90,4 +98,7 @@ public class PacienteSucursalDto {
     public void setMail(String mail) {
         this.mail = mail;
     }
+
+    public String getDireccionSucursal () { return direccionSucursal; }
+    public void setDireccionSucursal (String direccionSucursal) { this.direccionSucursal = direccionSucursal; }
 }
