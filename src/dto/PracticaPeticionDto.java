@@ -6,11 +6,22 @@ public class PracticaPeticionDto {
     private String nombrePeticion;
     private String nombrePractica;
 
+    private Integer grupoPractica;
+    private Float horasDeDemora;
+
     public PracticaPeticionDto(Integer codigoPractica, Integer numeroPeticion, String nombrePractica, String nombrePeticion) {
         this.numeroPeticion = numeroPeticion;
         this.codigoPractica = codigoPractica;
         this.nombrePeticion = nombrePeticion;
         this.nombrePractica = nombrePractica;
+    }
+
+    public PracticaPeticionDto (Integer codigoPractica, String nombrePractica, Integer grupo, Float horasDeDemora) {
+        //solo datos de la práctica
+        this.codigoPractica = codigoPractica;
+        this.nombrePractica = nombrePractica;
+        this.grupoPractica = grupo;
+        this.horasDeDemora = horasDeDemora;
     }
 
     public Integer getNumeroPeticion() { return numeroPeticion; }
@@ -40,5 +51,21 @@ public class PracticaPeticionDto {
 
     public void setNombrePractica (String name) {
         this.nombrePractica = name;
+    }
+
+    public Integer getGrupoPractica() {
+        return grupoPractica;
+    }
+
+    public void setGrupoPractica(Integer grupoPractica) {
+        this.grupoPractica = grupoPractica;
+    }
+
+    public Float getHorasDeDemora() {
+        return horasDeDemora;
+    }
+
+    public void setHorasDeDemora(Float horasDeDemora) {
+        this.horasDeDemora = horasDeDemora;
     }
 }

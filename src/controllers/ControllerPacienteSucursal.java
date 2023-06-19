@@ -43,6 +43,14 @@ public class ControllerPacienteSucursal {
         return pacientesArrayList;
     }
 
+    public ArrayList<Sucursal> mostrarSucursal () {
+        if (sucursalesArrayList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return sucursalesArrayList;
+    }
+
 
     public static PacienteSucursalDto modelsToDto(Paciente model, Sucursal modelSucursal){
         return new PacienteSucursalDto(model.getId(), modelSucursal.getNumeroSucursal(), model.getNombreCompleto(), modelSucursal.getNombre());

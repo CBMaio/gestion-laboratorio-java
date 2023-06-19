@@ -1,9 +1,17 @@
 package Vistas.Sucursales;
 
+import Models.Paciente;
+import Models.Sucursal;
+import Vistas.Listas.ListaPacientes;
+import Vistas.Listas.ListaSucursal;
+import Vistas.utils.ListaModel;
+import controllers.ControllerPacienteSucursal;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class SucursalScreen extends JDialog {
     private JPanel pnlPrincipal;
@@ -14,6 +22,7 @@ public class SucursalScreen extends JDialog {
     private JButton modificaciónButton;
     private JButton listarSucursalesButton;
     private SucursalScreen self;
+    private ListaModel model = new ListaModel();
 
     public SucursalScreen (Window owner, String title) {
         super(owner, title);
@@ -34,6 +43,28 @@ public class SucursalScreen extends JDialog {
                 altaSucursal.setVisible(true);
             }
         });
+
+        listarSucursalesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    model = getSucursalesParaMostrar();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                ListaSucursal lista = new ListaSucursal(self, "Sucursales", model);
+                lista.setVisible(true);
+            }
+        });
     }
 
+    private ListaModel getSucursalesParaMostrar () throws Exception {
+        ArrayList<Sucursal> sucursales = ControllerPacienteSucursal.getInstance().mostrarSucursal();
+        ListaModel lista = new ListaModel();
+        for (Sucursal item : sucursales) {
+            lista.add(item.getNombre());
+        }
+
+        return lista;
+    }
 }

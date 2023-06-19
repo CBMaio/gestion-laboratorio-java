@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vistas.MenuPrincipal">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Vistas.Peticiones.PeticionesScreen">
   <grid id="27dc6" binding="pnlPrincipal" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
@@ -7,63 +7,54 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="900b8" binding="pnlTitle" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="fafdd" binding="pnlTitle" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="North"/>
         <properties>
-          <background color="-3495210"/>
-          <preferredSize width="93" height="50"/>
+          <background color="-1317184"/>
+          <preferredSize width="67" height="50"/>
         </properties>
         <border type="none"/>
         <children>
-          <component id="c655c" class="javax.swing.JLabel">
+          <component id="816fc" class="javax.swing.JLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <foreground color="-14869480"/>
-              <horizontalAlignment value="0"/>
-              <text value="Menu principal"/>
+              <text value="Peticiones"/>
             </properties>
           </component>
         </children>
       </grid>
-      <grid id="3c5f7" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="898a4" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <component id="24b00" class="javax.swing.JButton" binding="pacientesButton">
+          <component id="f01d" class="javax.swing.JButton" binding="altaButton" default-binding="true">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Pacientes"/>
+              <text value="Alta"/>
             </properties>
           </component>
-          <component id="d7822" class="javax.swing.JButton" binding="sucursalesButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Sucursales"/>
-            </properties>
-          </component>
-          <component id="a411b" class="javax.swing.JButton" binding="prácticasButton" default-binding="true">
+          <component id="236a6" class="javax.swing.JButton" binding="bajaButton" default-binding="true">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Prácticas"/>
+              <text value="Baja"/>
             </properties>
           </component>
-          <component id="f03bd" class="javax.swing.JButton" binding="peticionesButton" default-binding="true">
+          <component id="cb440" class="javax.swing.JButton" binding="modificacionButton">
             <constraints>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Peticiones"/>
+              <text value="Modificación"/>
             </properties>
           </component>
         </children>

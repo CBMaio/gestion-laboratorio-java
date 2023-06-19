@@ -1,6 +1,8 @@
 package Vistas;
 
 import Vistas.Pacientes.PacientesScreen;
+import Vistas.Peticiones.PeticionesScreen;
+import Vistas.Practicas.PracticasScreen;
 import Vistas.Sucursales.SucursalScreen;
 
 import javax.swing.*;
@@ -40,6 +42,22 @@ public class MenuPrincipal extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 SucursalScreen sucularScreen = new SucursalScreen(self, "Menu Sucursales");
                 sucularScreen.setVisible(true);
+            }
+        });
+
+        peticionesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PeticionesScreen peticionesScreen = new PeticionesScreen(self, "Menu peticiones");
+                peticionesScreen.setVisible(true);
+            }
+        });
+
+        prácticasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                PracticasScreen practicasScreen = new PracticasScreen(self, "Menu de prácticas");
+                practicasScreen.setVisible(true);
             }
         });
     }

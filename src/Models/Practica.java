@@ -9,9 +9,11 @@ public class Practica {
 
     public Practica(){}
 
-    public Practica (Integer codigo, String nombre) {
+    public Practica (Integer codigo, String nombre, Integer grupo, Float tiempoDeDemora) {
         this.codigo = codigo;
         this.nombre = nombre;
+        this.grupo = grupo;
+        this.tiempoDeDemora = tiempoDeDemora;
     }
 
     public Integer getCodigo () {
@@ -36,6 +38,19 @@ public class Practica {
         return resultado;
     }
 
+    public Integer getGrupo() {
+        return grupo;
+    }
 
+    public void setGrupo(Integer grupo) {
+        this.grupo = grupo;
+    }
 
+    public Float getTiempoDeDemora() {
+        return tiempoDeDemora;
+    }
+
+    public void setTiempoDeDemora(Float tiempoDeDemora) {
+        this.tiempoDeDemora = tiempoDeDemora;
+    }
 }
