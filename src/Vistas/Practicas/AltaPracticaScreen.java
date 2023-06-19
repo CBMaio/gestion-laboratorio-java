@@ -52,7 +52,7 @@ public class AltaPracticaScreen extends JDialog {
             return;
         }
 
-        if (Utils.isNumeric(codigo) && Utils.isNumeric(demora) && Utils.isNumeric(grupo)) {
+        if (Utils.isNumeric(codigo) && Utils.isFloatNumber(demora) && Utils.isNumeric(grupo)) {
             int codigoToNumber = Integer.parseInt(codigo);
             float demoraToNumber = Float.parseFloat(demora);
             int grupoToNumber = Integer.parseInt(grupo);

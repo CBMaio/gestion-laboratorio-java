@@ -21,4 +21,14 @@ public class Utils {
             return false;
         }
     }
+
+    public static boolean isFloatNumber (String strNumber) {
+        try {
+            Float.parseFloat(strNumber);
+            return true;
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, "Campo numérico esperado" );
+            return false;
+        }
+    }
 }

@@ -2,6 +2,8 @@ package Vistas.Peticiones;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PeticionesScreen extends JDialog {
     private JPanel pnlPrincipal;
@@ -23,7 +25,13 @@ public class PeticionesScreen extends JDialog {
     }
 
     private void asociarEventos () {
-
+        altaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AltaPeticionesScreen altaScreen = new AltaPeticionesScreen(self, "Peticiones");
+                altaScreen.setVisible(true);
+            }
+        });
     }
 
 }

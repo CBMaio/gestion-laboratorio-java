@@ -4,6 +4,7 @@ import Models.Practica;
 import Vistas.Pacientes.PacientesModificacionScreen;
 import Vistas.utils.Utils;
 import controllers.ControllerPacienteSucursal;
+import controllers.ControllerPracticasPeticiones;
 import dto.PacienteSucursalDto;
 import dto.PracticaPeticionDto;
 
@@ -38,7 +39,7 @@ public class ModificaciónPracticaScreen extends JDialog {
         this.setLocationRelativeTo(null);
         this.initialData = practicaData;
         this.fillForm(initialData);
-//        this.modificarListener();
+        this.modificarListener();
         this.self = this;
     }
 
@@ -49,30 +50,26 @@ public class ModificaciónPracticaScreen extends JDialog {
         horasDeDemoraInput.setText(data.getHorasDeDemora().toString());
     }
 
-//    private void modificarListener () {
-//        modificarButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if (Utils.isNumeric(dniInput.getText()) && Utils.isNumeric(edadInput.getText())) {
-//                    PacienteSucursalDto paciente = new PacienteSucursalDto(
-//                            Integer.parseInt(dniInput.getText()),
-//                            nombreInput.getText(),
-//                            apellidoInput.getText(),
-//                            Integer.parseInt(edadInput.getText()),
-//                            domicilioInput.getText(),
-//                            mailInput.getText()
-//                    );
-//                    try {
-//                        ControllerPacienteSucursal.getInstance().modificarPaciente(paciente);
-//                        JOptionPane.showMessageDialog(null, "Paciente modificado");
-//                        self.setVisible(false);
-//                    } catch (Exception ex) {
-//                        throw new RuntimeException(ex);
-//                    }
-//                }
-//
-//
-//            }
-//        });
-//    }
+    private void modificarListener () {
+        modificarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (Utils.isNumeric(codigoInput.getText()) && Utils.isFloatNumber(horasDeDemoraInput.getText()) && Utils.isNumeric(grupoInput.getText())) {
+                    PracticaPeticionDto practica = new PracticaPeticionDto(
+                            Integer.parseInt(codigoInput.getText()),
+                            nombreInput.getText(),
+                            Integer.parseInt(grupoInput.getText()),
+                            Float.parseFloat(horasDeDemoraInput.getText())
+                    );
+                    try {
+                        ControllerPracticasPeticiones.getInstance().modificarPractica(practica);
+                        JOptionPane.showMessageDialog(null, "Práctica modificada");
+                        self.setVisible(false);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
+    }
 }

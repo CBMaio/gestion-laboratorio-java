@@ -135,4 +135,11 @@ public class ControllerPracticasPeticiones {
 
         return null;
     }
+
+    public void modificarPractica (PracticaPeticionDto dto) {
+        Integer indexPractica = getPracticaIndex(dto.getCodigoPractica());
+        listPracticas.get(indexPractica).setNombre(dto.getNombrePractica());
+        listPracticas.get(indexPractica).setGrupo(dto.getGrupoPractica());
+        listPracticas.get(indexPractica).setTiempoDeDemora(dto.getHorasDeDemora());
+    }
 }

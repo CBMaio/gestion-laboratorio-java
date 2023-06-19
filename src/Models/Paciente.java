@@ -1,5 +1,6 @@
 package Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Paciente {
@@ -11,7 +12,7 @@ public class Paciente {
     private String apellido;
     private String domicilio;
     private String mail;
-//    private List<Peticiones> peticiones;
+    private List<Peticiones> listPeticiones;
 
     public Paciente(){}
 
@@ -88,5 +89,14 @@ public class Paciente {
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
+
+    public void agregarPeticion (Peticiones peticion) {
+        listPeticiones.add(peticion);
+    }
+
+    public List<Peticiones> getPeticiones () {
+        return listPeticiones;
+    }
+
 }
 
