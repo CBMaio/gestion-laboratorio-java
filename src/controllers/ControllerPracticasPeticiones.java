@@ -7,6 +7,7 @@ import Models.Sucursal;
 import dto.PacienteSucursalDto;
 import dto.PracticaPeticionDto;
 
+import javax.naming.ldap.Control;
 import javax.swing.*;
 import java.time.Period;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class ControllerPracticasPeticiones {
     }
 
     public static PracticaPeticionDto modelsToDto(Practica model, Peticiones modelPeticion){
-        return new PracticaPeticionDto(model.getCodigo(), modelPeticion.getNumeroPeticion(), model.getNombre(), modelPeticion.getNombrePeticion() );
+        return new PracticaPeticionDto(model.getCodigo(), modelPeticion.getNumeroPeticion(), model.getNombre(), modelPeticion.getNombrePeticion());
     }
 
     public PracticaPeticionDto getDtoByIdPracticaIdPeticion (Integer codigoPractica, Integer idPeticion) throws Exception {
@@ -70,11 +71,22 @@ public class ControllerPracticasPeticiones {
         return practica;
     }
 
-    public static Peticiones dtoToPeticion (PracticaPeticionDto dto) {
+    public static Peticiones dtoToPeticion (PracticaPeticionDto dto) throws Exception {
+        ControllerPacienteSucursal controller = ControllerPacienteSucursal.getInstance();
         Peticiones peticion = new Peticiones();
         peticion.setNumeroPeticion(dto.getNumeroPeticion());
-        peticion.setNombrePeticion(dto.getNombrePeticion());
+        peticion.setPaciente(controller.dtoToPaciente(dto.getPaciente()));
         return peticion;
+    }
+
+    public boolean addPeticionExitosamente (PracticaPeticionDto dto) throws Exception {
+        if(peticionExistente(dto.getNumeroPeticion()).equals(false)) {
+            Peticiones newPeticion = dtoToPeticion(dto);
+            listPeticiones.add(newPeticion);
+            return true;
+        }
+
+        return false;
     }
 
     public boolean addPracticaExitosamente (PracticaPeticionDto dto) throws Exception {
@@ -92,6 +104,20 @@ public class ControllerPracticasPeticiones {
             for (Practica model : listPracticas) {
                 if (model.getCodigo() != null) {
                     if (model.getCodigo().equals(codigoPractica)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public Boolean peticionExistente (Integer numeroPeticion) {
+        if (listPeticiones.size() >= 1) {
+            for (Peticiones model : listPeticiones) {
+                if (model.getNumeroPeticion() != null) {
+                    if (model.getNumeroPeticion().equals(numeroPeticion)) {
                         return true;
                     }
                 }
@@ -125,6 +151,15 @@ public class ControllerPracticasPeticiones {
         return -1;
     }
 
+    private int getPeticionIndex(Integer cod){
+        for (int i=0;i<listPeticiones.size();i++){
+            if(listPeticiones.get(i).getNumeroPeticion() != null && listPeticiones.get(i).getNumeroPeticion().equals(cod)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public PracticaPeticionDto getPracticaDTO (Integer dni) {
         for (int i=0;i<listPracticas.size();i++){
             if(listPracticas.get(i).getCodigo() != null && listPracticas.get(i).getCodigo().equals(dni)){
@@ -142,4 +177,5 @@ public class ControllerPracticasPeticiones {
         listPracticas.get(indexPractica).setGrupo(dto.getGrupoPractica());
         listPracticas.get(indexPractica).setTiempoDeDemora(dto.getHorasDeDemora());
     }
+
 }

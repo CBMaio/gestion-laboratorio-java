@@ -1,5 +1,7 @@
 package dto;
 
+import Models.Paciente;
+
 public class PracticaPeticionDto {
     private Integer numeroPeticion;
     private Integer codigoPractica;
@@ -8,6 +10,8 @@ public class PracticaPeticionDto {
 
     private Integer grupoPractica;
     private Float horasDeDemora;
+
+    private PacienteSucursalDto paciente;
 
     public PracticaPeticionDto(Integer codigoPractica, Integer numeroPeticion, String nombrePractica, String nombrePeticion) {
         this.numeroPeticion = numeroPeticion;
@@ -22,6 +26,11 @@ public class PracticaPeticionDto {
         this.nombrePractica = nombrePractica;
         this.grupoPractica = grupo;
         this.horasDeDemora = horasDeDemora;
+    }
+
+    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente ) {
+        this.numeroPeticion = numeroPeticion;
+        this.paciente = paciente;
     }
 
     public Integer getNumeroPeticion() { return numeroPeticion; }
@@ -68,4 +77,6 @@ public class PracticaPeticionDto {
     public void setHorasDeDemora(Float horasDeDemora) {
         this.horasDeDemora = horasDeDemora;
     }
+
+    public PacienteSucursalDto getPaciente () { return this.paciente; }
 }

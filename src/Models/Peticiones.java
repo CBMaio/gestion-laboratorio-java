@@ -7,6 +7,7 @@ public class Peticiones {
     private Paciente paciente;
     private String obraSocial;
     private String nombrePeticion;
+    private ArrayList<Practica> practicas;
 
     public Peticiones(){}
     public Peticiones (Integer numeroPeticion, String obraSocial) {
@@ -27,4 +28,16 @@ public class Peticiones {
 //    public ArrayList getPracticasCriticas() {}
 //    public ArrayList getPracticasReservadas() {}
 //    public void mostrarResultados(){}
+
+    public void addPractica (Practica practica) {
+        practicas.add(practica);
+    }
+
+    public ArrayList<Practica> getPracticas () {
+        return this.practicas;
+    }
+
+    public void setPaciente (Paciente paciente) {
+        this.paciente = paciente;
+    }
 }
