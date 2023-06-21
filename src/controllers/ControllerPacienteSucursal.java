@@ -1,8 +1,10 @@
 package controllers;
 
 import Models.Paciente;
+import Models.Peticiones;
 import Models.Sucursal;
 import dto.PacienteSucursalDto;
+import dto.PracticaPeticionDto;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -176,5 +178,12 @@ public class ControllerPacienteSucursal {
         pacientesArrayList.get(indexPaciente).setApellido(dto.getApellido());
         pacientesArrayList.get(indexPaciente).setDomicilio(dto.getDomicilio());
         pacientesArrayList.get(indexPaciente).setMail(dto.getMail());
+    }
+
+    public boolean asociarPeticionAPaciente (Peticiones peticion, PacienteSucursalDto pacienteDto){
+        Integer pacienteIndex = getPacienteIndex(pacienteDto.getIdPaciente());
+        Paciente paciente = pacientesArrayList.get(pacienteIndex);
+        paciente.agregarPeticion(peticion);
+        return true;
     }
 }

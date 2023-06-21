@@ -1,7 +1,7 @@
 package Vistas.Peticiones;
 
+import Models.Practica;
 import Vistas.utils.Utils;
-import controllers.ControllerPacienteSucursal;
 import controllers.ControllerPracticasPeticiones;
 import dto.PacienteSucursalDto;
 import dto.PracticaPeticionDto;
@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 public class AltaPeticionesScreen extends JDialog {
     private JPanel pnlPrincipal;
@@ -31,8 +33,9 @@ public class AltaPeticionesScreen extends JDialog {
     private JPanel pnlPracticas;
     private JTextField practicaInput;
     private PacienteSucursalDto pacienteData;
+    private ArrayList<Integer> practicasIds = new ArrayList<Integer>();
 
-    private ArrayList<JTextField> practicas;
+    private AltaPeticionesScreen self;
     public AltaPeticionesScreen (Window owner, String title, PacienteSucursalDto pacienteData) {
         super(owner, title);
         this.setContentPane(pnlPrincipal);
@@ -41,6 +44,7 @@ public class AltaPeticionesScreen extends JDialog {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.asociarEventos();
+        this.self = this;
         this.pacienteData = pacienteData;
         this.dniLabel.setText(pacienteData.getIdPaciente().toString());
         this.nombreLabel.setText(pacienteData.getNombrePaciente());
@@ -50,15 +54,29 @@ public class AltaPeticionesScreen extends JDialog {
         crearPeticiónButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (checkPractica()) {
-                    PracticaPeticionDto peticionDto = new PracticaPeticionDto(1, pacienteData);
-                    try {
-                        ControllerPracticasPeticiones controllerPeticion = ControllerPracticasPeticiones.getInstance();
-                        boolean agregadoCorrectamente = controllerPeticion.addPeticionExitosamente(peticionDto);
 
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+                if (!practicasValidasFromPnl() || Utils.isAnyFieldEmpty(obraSocialInput.getText(), fechaCargaInput.getText(), fechaEntregaInput.getText())) {
+                    return;
+                }
+                Integer randomId = new Random().nextInt();
+                PracticaPeticionDto peticionDto = new PracticaPeticionDto(randomId, pacienteData);
+                try {
+                    ControllerPracticasPeticiones controllerPeticion = ControllerPracticasPeticiones.getInstance();
+                    boolean peticionAgregadaExitosamente = controllerPeticion.addPeticionExitosamente(peticionDto);
+
+                    if (!peticionAgregadaExitosamente) {
+                        JOptionPane.showMessageDialog(null, "No se pudo cargar la petición");
+                        return;
                     }
+                    for (Integer id: practicasIds) {
+                        controllerPeticion.addPracticaToPeticion(peticionDto, id);
+                    }
+
+                    boolean peticionToPacienteExitosamente = controllerPeticion.addPeticionToPacienteExitosamente(peticionDto, pacienteData);
+                    JOptionPane.showMessageDialog(null, "Petición creada");
+                    self.setVisible(false);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });
@@ -67,9 +85,7 @@ public class AltaPeticionesScreen extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JTextField nuevaPractica = new JTextField();
-                practicas.add(nuevaPractica);
                 pnlPracticas.setLayout(new BoxLayout(pnlPracticas, BoxLayout.Y_AXIS));
-                pnlPracticas.add(nuevaPractica);
                 pnlPracticas.add(nuevaPractica);
                 pnlPracticas.validate();
             }
@@ -77,10 +93,25 @@ public class AltaPeticionesScreen extends JDialog {
 
     }
 
-    private boolean checkPractica () {
-        String practicaID = practicaInput.getText();
-        if (Utils.isNumeric(practicaID)) {
-            Integer id = Integer.parseInt(practicaID);
+    private boolean practicasValidasFromPnl () {
+        for (Component component: pnlPracticas.getComponents()) {
+            if (component instanceof JTextField) {
+                String value = ((JTextField) component).getText();
+                if (validPractica(value)) {
+                    Integer valueInt = Integer.parseInt(value);
+                    practicasIds.add(valueInt);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Código " + value + " inválido");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean validPractica (String value) {
+        if (Utils.isNumeric(value)) {
+            Integer id = Integer.parseInt(value);
             try {
                 ControllerPracticasPeticiones controller = ControllerPracticasPeticiones.getInstance();
                 if (controller.practicaExistente(id)) {
@@ -92,4 +123,5 @@ public class AltaPeticionesScreen extends JDialog {
         }
         return false;
     }
+
 }

@@ -1,5 +1,7 @@
 package Models;
 
+import sun.reflect.generics.tree.TypeTree;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class Paciente {
     private String apellido;
     private String domicilio;
     private String mail;
-    private List<Peticiones> listPeticiones;
+    private ArrayList<Peticiones> listPeticiones = new ArrayList<Peticiones>();
 
     public Paciente(){}
 

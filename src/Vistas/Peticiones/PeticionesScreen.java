@@ -57,6 +57,8 @@ public class PeticionesScreen extends JDialog {
             } else  {
                 JOptionPane.showMessageDialog(null, "Paciente no encontrado");
             }
+            dniInput.setText(null);
+            dniInput.requestFocus();
     }
 
 }

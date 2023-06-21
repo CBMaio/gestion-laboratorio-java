@@ -28,7 +28,7 @@ public class PracticaPeticionDto {
         this.horasDeDemora = horasDeDemora;
     }
 
-    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente ) {
+    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente) {
         this.numeroPeticion = numeroPeticion;
         this.paciente = paciente;
     }

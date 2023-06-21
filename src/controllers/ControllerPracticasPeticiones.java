@@ -178,4 +178,22 @@ public class ControllerPracticasPeticiones {
         listPracticas.get(indexPractica).setTiempoDeDemora(dto.getHorasDeDemora());
     }
 
+    public void addPracticaToPeticion (PracticaPeticionDto peticionDto, Integer codigoPractica) {
+        Integer practicaIndex = getPracticaIndex(codigoPractica);
+        Integer peticionIndex = getPeticionIndex(peticionDto.getNumeroPeticion());
+        if (practicaIndex.equals(-1) || peticionIndex.equals(-1)) {
+            JOptionPane.showMessageDialog(null, "Práctica o petición inexistente");
+            return;
+        }
+
+        Practica practica = listPracticas.get(practicaIndex);
+        Peticiones peticion = listPeticiones.get(peticionIndex);
+        peticion.addPractica(practica);
+    }
+
+    public boolean addPeticionToPacienteExitosamente (PracticaPeticionDto peticionDto, PacienteSucursalDto pacienteDto) throws Exception {
+        Peticiones peticion = listPeticiones.get(getPeticionIndex(peticionDto.getNumeroPeticion()));
+        return ControllerPacienteSucursal.getInstance().asociarPeticionAPaciente(peticion, pacienteDto);
+    }
+
 }

@@ -7,7 +7,7 @@ public class Peticiones {
     private Paciente paciente;
     private String obraSocial;
     private String nombrePeticion;
-    private ArrayList<Practica> practicas;
+    private ArrayList<Practica> practicas = new ArrayList<Practica>();
 
     public Peticiones(){}
     public Peticiones (Integer numeroPeticion, String obraSocial) {
