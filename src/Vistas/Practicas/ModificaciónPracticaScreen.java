@@ -1,11 +1,7 @@
 package Vistas.Practicas;
 
-import Models.Practica;
-import Vistas.Pacientes.PacientesModificacionScreen;
 import Vistas.utils.Utils;
-import controllers.ControllerPacienteSucursal;
 import controllers.ControllerPracticasPeticiones;
-import dto.PacienteSucursalDto;
 import dto.PracticaPeticionDto;
 
 import javax.swing.*;
@@ -25,6 +21,10 @@ public class ModificaciónPracticaScreen extends JDialog {
     private JTextField nombreInput;
     private JTextField grupoInput;
     private JTextField horasDeDemoraInput;
+    private JTextField tipoDePracticaInput;
+    private JTextField valorMinimoInput;
+    private JTextField valorMaximoInput;
+    private JTextField resultadosNumericosInput;
 
     private ModificaciónPracticaScreen self;
 
@@ -35,7 +35,7 @@ public class ModificaciónPracticaScreen extends JDialog {
         this.setContentPane(pnlPrincipal);
         this.setModal(true);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(400,400);
+        this.setSize(400,560);
         this.setLocationRelativeTo(null);
         this.initialData = practicaData;
         this.fillForm(initialData);
@@ -48,18 +48,32 @@ public class ModificaciónPracticaScreen extends JDialog {
         nombreInput.setText(data.getNombrePractica());
         grupoInput.setText(data.getGrupoPractica().toString());
         horasDeDemoraInput.setText(data.getHorasDeDemora().toString());
+        tipoDePracticaInput.setText(data.getTipoDePracica().toString());
+        valorMinimoInput.setText(data.getValorReferenciaMinimo().toString());
+        valorMaximoInput.setText(data.getValorReferenciaMaximo().toString());
+        if (data.getTieneResultadosNumericos()) {
+            resultadosNumericosInput.setText("s");
+        } else {
+            resultadosNumericosInput.setText("n");
+        }
     }
 
     private void modificarListener () {
         modificarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Utils.isNumeric(codigoInput.getText()) && Utils.isFloatNumber(horasDeDemoraInput.getText()) && Utils.isNumeric(grupoInput.getText())) {
+                Boolean validacion = Utils.isNumeric(codigoInput.getText()) && Utils.isFloatNumber(horasDeDemoraInput.getText()) && Utils.isNumeric(grupoInput.getText()) && Utils.isFloatNumber(valorMinimoInput.getText()) && Utils.isFloatNumber(valorMaximoInput.getText());
+                Boolean valorValido = resultadosNumericosInput.getText().equals("s") || resultadosNumericosInput.getText().equals("n");
+                if (validacion && valorValido) {
                     PracticaPeticionDto practica = new PracticaPeticionDto(
                             Integer.parseInt(codigoInput.getText()),
                             nombreInput.getText(),
                             Integer.parseInt(grupoInput.getText()),
-                            Float.parseFloat(horasDeDemoraInput.getText())
+                            Float.parseFloat(horasDeDemoraInput.getText()),
+                            tipoDePracticaInput.getText(),
+                            Float.parseFloat(valorMinimoInput.getText()),
+                            Float.parseFloat(valorMaximoInput.getText()),
+                            stringToBoolean(resultadosNumericosInput.getText())
                     );
                     try {
                         ControllerPracticasPeticiones.getInstance().modificarPractica(practica);
@@ -72,4 +86,12 @@ public class ModificaciónPracticaScreen extends JDialog {
             }
         });
     }
+
+    private boolean stringToBoolean (String value) {
+        if (value.equals("s")) {
+            return true;
+        }
+        return false;
+    }
+
 }

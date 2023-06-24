@@ -29,14 +29,14 @@ public class ControllerPracticasPeticiones {
     }
 
     public static ArrayList<Peticiones> getPeticionesList () {
-        ArrayList peticiones = new ArrayList();
-        peticiones.add(new Peticiones());
+        ArrayList peticiones = new ArrayList<Peticiones>();
         return peticiones;
     }
 
     public static ArrayList<Practica> getPracticasList() {
         ArrayList practicas = new ArrayList();
-        practicas.add(new Practica());
+        Practica practica1 = new Practica(1, "colesterol", 1, 1.00f, "critico", 0.00f,200.00f, true);
+        practicas.add(practica1);
         return practicas;
     }
 
@@ -67,7 +67,7 @@ public class ControllerPracticasPeticiones {
     }
 
     public static Practica dtoToPractica(PracticaPeticionDto dto){
-        Practica practica = new Practica(dto.getCodigoPractica(), dto.getNombrePractica(), dto.getGrupoPractica(), dto.getHorasDeDemora());
+        Practica practica = new Practica(dto.getCodigoPractica(), dto.getNombrePractica(), dto.getGrupoPractica(), dto.getHorasDeDemora(), dto.getTipoDePracica(), dto.getValorReferenciaMinimo(), dto.getValorReferenciaMaximo(), dto.getTieneResultadosNumericos());
         return practica;
     }
 
@@ -76,6 +76,8 @@ public class ControllerPracticasPeticiones {
         Peticiones peticion = new Peticiones();
         peticion.setNumeroPeticion(dto.getNumeroPeticion());
         peticion.setPaciente(controller.dtoToPaciente(dto.getPaciente()));
+        peticion.setFechaCarga(dto.getFechaCarga());
+        peticion.setFechaEntrega(dto.getFechaEntrega());
         return peticion;
     }
 
@@ -135,6 +137,10 @@ public class ControllerPracticasPeticiones {
         return listPracticas;
     }
 
+    public ArrayList<Peticiones> mostrarPeticiones () throws Exception {
+        return listPeticiones;
+    }
+
     public void deleteByCodigoPractica(Integer cod){
         int index = getPracticaIndex(cod);
         if(index != -1){
@@ -164,7 +170,7 @@ public class ControllerPracticasPeticiones {
         for (int i=0;i<listPracticas.size();i++){
             if(listPracticas.get(i).getCodigo() != null && listPracticas.get(i).getCodigo().equals(dni)){
                 Practica selected = listPracticas.get(i);
-                return new PracticaPeticionDto(selected.getCodigo(), selected.getNombre(), selected.getGrupo(), selected.getTiempoDeDemora());
+                return new PracticaPeticionDto(selected.getCodigo(), selected.getNombre(), selected.getGrupo(), selected.getTiempoDeDemora(), selected.getTipoDePracica(), selected.getValorReferenciaMinimo(), selected.getValorReferenciaMaximo(), selected.getTieneResultadosNumericos());
             }
         }
 
@@ -195,5 +201,29 @@ public class ControllerPracticasPeticiones {
         Peticiones peticion = listPeticiones.get(getPeticionIndex(peticionDto.getNumeroPeticion()));
         return ControllerPacienteSucursal.getInstance().asociarPeticionAPaciente(peticion, pacienteDto);
     }
+
+    public ArrayList<Practica> getPracticasPorPeticion (Integer idPeticion) {
+        Peticiones peticion = listPeticiones.get(this.getPeticionIndex(idPeticion));
+        return peticion.getPracticas();
+    }
+
+    public PracticaPeticionDto getPeticionDto (Integer peticionId) {
+        for (int i=0;i<listPeticiones.size();i++){
+            if(listPeticiones.get(i).getNumeroPeticion().equals(peticionId)){
+                Peticiones selected = listPeticiones.get(i);
+                PacienteSucursalDto paciente = null;
+                try {
+                    paciente = ControllerPacienteSucursal.getInstance().getPacienteDTO(selected.getPaciente().getDni());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                PracticaPeticionDto peticion = new PracticaPeticionDto(selected.getNumeroPeticion(), paciente, selected.getFechaCarga(), selected.getFechaEntrega(), selected.getPracticas() );
+                return peticion;
+            }
+        }
+
+        return null;
+    }
+
 
 }

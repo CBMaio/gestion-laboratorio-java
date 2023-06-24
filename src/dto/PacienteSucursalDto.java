@@ -1,6 +1,7 @@
 package dto;
 
 import Models.Paciente;
+import Models.Peticiones;
 
 import java.util.ArrayList;
 

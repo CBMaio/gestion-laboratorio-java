@@ -27,6 +27,7 @@ public class Paciente {
         this.apellido = apellido;
         this.domicilio = domicilio;
         this.mail = mail;
+        this.listPeticiones = new ArrayList<Peticiones>();
     }
 
     public Integer getId () {
@@ -96,7 +97,7 @@ public class Paciente {
         listPeticiones.add(peticion);
     }
 
-    public List<Peticiones> getPeticiones () {
+    public ArrayList<Peticiones> getPeticiones () {
         return listPeticiones;
     }
 

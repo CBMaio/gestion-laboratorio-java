@@ -16,7 +16,7 @@ public class ControllerPacienteSucursal {
     private static ArrayList<Sucursal> sucursalesArrayList;
     private ControllerPacienteSucursal(){};
 
-    public static synchronized ControllerPacienteSucursal getInstance() throws Exception {
+    public static synchronized ControllerPacienteSucursal getInstance() throws Exception  {
         if (CONTROLLER == null) {
             CONTROLLER = new ControllerPacienteSucursal();
             sucursalesArrayList = getSucursalesList();
@@ -34,6 +34,8 @@ public class ControllerPacienteSucursal {
 
     public static ArrayList<Paciente> getPacientesList() {
         ArrayList pacientes = new ArrayList();
+        Paciente paciente1 = new Paciente(1, "F", 25, "caro", "maio", "domicilio de caro", "caro@hotamil.com");
+        pacientes.add(paciente1);
         return pacientes;
     }
 
@@ -185,5 +187,11 @@ public class ControllerPacienteSucursal {
         Paciente paciente = pacientesArrayList.get(pacienteIndex);
         paciente.agregarPeticion(peticion);
         return true;
+    }
+
+    public ArrayList<Peticiones> getPeticionesPorPaciente (PacienteSucursalDto pacienteDto) {
+        Integer pacienteIndex = getPacienteIndex(pacienteDto.getIdPaciente());
+        Paciente paciente = pacientesArrayList.get(pacienteIndex);
+        return paciente.getPeticiones();
     }
 }

@@ -8,11 +8,15 @@ public class Peticiones {
     private String obraSocial;
     private String nombrePeticion;
     private ArrayList<Practica> practicas = new ArrayList<Practica>();
+    private String fechaCarga;
+    private String fechaEntrega;
 
     public Peticiones(){}
-    public Peticiones (Integer numeroPeticion, String obraSocial) {
+    public Peticiones (Integer numeroPeticion, String obraSocial, String fechaCarga, String fechaEntrega) {
         this.numeroPeticion = numeroPeticion;
         this.obraSocial = obraSocial;
+        this.fechaCarga = fechaCarga;
+        this.fechaEntrega = fechaEntrega;
     }
 
     public Integer getNumeroPeticion () { return numeroPeticion; }
@@ -39,5 +43,25 @@ public class Peticiones {
 
     public void setPaciente (Paciente paciente) {
         this.paciente = paciente;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public String getFechaCarga() {
+        return fechaCarga;
+    }
+
+    public void setFechaCarga(String fechaCarga) {
+        this.fechaCarga = fechaCarga;
+    }
+
+    public String getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(String fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
     }
 }

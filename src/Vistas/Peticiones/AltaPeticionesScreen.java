@@ -1,19 +1,16 @@
 package Vistas.Peticiones;
 
-import Models.Practica;
 import Vistas.utils.Utils;
 import controllers.ControllerPracticasPeticiones;
 import dto.PacienteSucursalDto;
 import dto.PracticaPeticionDto;
 
-import javax.rmi.CORBA.Util;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.UUID;
 
 public class AltaPeticionesScreen extends JDialog {
     private JPanel pnlPrincipal;
@@ -32,6 +29,7 @@ public class AltaPeticionesScreen extends JDialog {
     private JButton agregarButton;
     private JPanel pnlPracticas;
     private JTextField practicaInput;
+    private JTextField numeroInput;
     private PacienteSucursalDto pacienteData;
     private ArrayList<Integer> practicasIds = new ArrayList<Integer>();
 
@@ -54,14 +52,22 @@ public class AltaPeticionesScreen extends JDialog {
         crearPeticiónButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (!practicasValidasFromPnl() || Utils.isAnyFieldEmpty(obraSocialInput.getText(), fechaCargaInput.getText(), fechaEntregaInput.getText())) {
+                if (!validatePracticesFromPanel() || Utils.isAnyFieldEmpty(numeroInput.getText(), obraSocialInput.getText(), fechaCargaInput.getText(), fechaEntregaInput.getText())) {
                     return;
                 }
-                Integer randomId = new Random().nextInt();
-                PracticaPeticionDto peticionDto = new PracticaPeticionDto(randomId, pacienteData);
+
+                if (!Utils.isNumeric(numeroInput.getText())) {
+                    return;
+                }
                 try {
                     ControllerPracticasPeticiones controllerPeticion = ControllerPracticasPeticiones.getInstance();
+                    Integer peticionId = Integer.parseInt(numeroInput.getText());
+                    if (controllerPeticion.peticionExistente(peticionId)) {
+                        JOptionPane.showMessageDialog(null, "El número de petición ya existe");
+                        return;
+                    }
+
+                    PracticaPeticionDto peticionDto = new PracticaPeticionDto(peticionId, pacienteData, fechaCargaInput.getText(), fechaEntregaInput.getText());
                     boolean peticionAgregadaExitosamente = controllerPeticion.addPeticionExitosamente(peticionDto);
 
                     if (!peticionAgregadaExitosamente) {
@@ -93,7 +99,7 @@ public class AltaPeticionesScreen extends JDialog {
 
     }
 
-    private boolean practicasValidasFromPnl () {
+    private boolean validatePracticesFromPanel () {
         for (Component component: pnlPracticas.getComponents()) {
             if (component instanceof JTextField) {
                 String value = ((JTextField) component).getText();
