@@ -100,6 +100,5 @@ public class Paciente {
     public ArrayList<Peticiones> getPeticiones () {
         return listPeticiones;
     }
-
 }
 

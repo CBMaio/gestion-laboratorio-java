@@ -3,6 +3,8 @@ package Vistas.Pacientes;
 import Vistas.utils.Utils;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import controllers.ControllerPacienteSucursal;
+import dto.PacienteSucursalDto;
+import jdk.nashorn.internal.scripts.JO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +50,11 @@ public class PacientesBajaScreen extends JDialog {
             ControllerPacienteSucursal controllerInstance = ControllerPacienteSucursal.getInstance();
             Boolean existePaciente = controllerInstance.pacienteExistente(validDni);
             if (existePaciente) {
+                PacienteSucursalDto pacienteDTO = controllerInstance.getPacienteDTO(validDni);
+                if (!puedeEliminarse(pacienteDTO)) {
+                    JOptionPane.showMessageDialog(null, "Este paciente tiene peticiones con resultados finalizados, por lo tanto no puede ser eliminado.");
+                    return;
+                }
                 controllerInstance.deleteByPacienteId(validDni);
                 JOptionPane.showMessageDialog(null, "Paciente dado de baja exitosamente");
                 self.setVisible(false);
@@ -57,6 +64,15 @@ public class PacientesBajaScreen extends JDialog {
             JOptionPane.showMessageDialog(null, "Paciente no encontrado");
             dniInput.setText(null);
             dniInput.requestFocus();
+        }
+    }
+
+    private Boolean puedeEliminarse (PacienteSucursalDto pacienteDTO) {
+        try {
+            ControllerPacienteSucursal controllerInstance = ControllerPacienteSucursal.getInstance();
+            return !controllerInstance.tienePeticionesFinalizadas(pacienteDTO);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

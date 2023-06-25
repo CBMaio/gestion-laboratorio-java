@@ -194,4 +194,15 @@ public class ControllerPacienteSucursal {
         Paciente paciente = pacientesArrayList.get(pacienteIndex);
         return paciente.getPeticiones();
     }
+
+    public Boolean tienePeticionesFinalizadas (PacienteSucursalDto pacienteDTO) {
+        ArrayList<Peticiones> peticionesDePaciente = getPeticionesPorPaciente(pacienteDTO);
+        for (Peticiones peticion: peticionesDePaciente) {
+            if (peticion.resultadosCompletos()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

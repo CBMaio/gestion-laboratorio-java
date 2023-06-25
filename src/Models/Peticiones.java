@@ -71,10 +71,28 @@ public class Peticiones {
             return;
         }
         Practica practicaItem = practicas.get(practicaIndex);
+        Integer indexResultado = practicaTieneResultadoIndex(codigoPractica);
+        if (!indexResultado.equals(-1)) {
+            modificarResultadoExistente(indexResultado, resultado);
+            return;
+        }
         Resultado resultadoModel = new Resultado(resultado, practicaItem);
         resultados.add(resultadoModel);
     }
 
+    private Integer practicaTieneResultadoIndex (Integer codPractica) {
+        for (int i = 0; i < resultados.size(); i++) {
+            if (resultados.get(i).getPractica().getCodigo().equals(codPractica)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    private void modificarResultadoExistente (Integer indexResultado, Integer nuevoResultado) {
+        resultados.get(indexResultado).setValor(nuevoResultado);
+    }
     public void setResultadoToPractica (Integer codigoPractica, Boolean resultado) {
         Integer practicaIndex = buscarPracticaIndex(codigoPractica);
         if (practicaIndex.equals(-1)) {
@@ -100,5 +118,12 @@ public class Peticiones {
         return this.resultados;
     }
 
+    public Boolean resultadosCompletos () {
+        if (practicas.size() == resultados.size()) {
+            return true;
+        }
+
+        return false;
+    }
 
 }

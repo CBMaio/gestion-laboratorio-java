@@ -1,6 +1,7 @@
 package Vistas.Peticiones;
 
 import Models.Practica;
+import Models.Resultado;
 import Vistas.utils.Utils;
 import controllers.ControllerPacienteSucursal;
 import controllers.ControllerPracticasPeticiones;
@@ -55,6 +56,9 @@ public class CargarResultadosScreen extends JDialog {
             JLabel practicaLabel = new JLabel();
             practicaLabel.setText(practica.getNombre());
             resultadoInput.setName(practica.getCodigo().toString());
+            if (practicaTieneResultado(practica.getCodigo())) {
+                resultadoInput.setText(getPracticaResult(practica.getCodigo()));
+            }
             pnlPracticas.add(practicaLabel);
             pnlPracticas.add(resultadoInput);
         }
@@ -65,7 +69,6 @@ public class CargarResultadosScreen extends JDialog {
     private void validarResultados () {
         for (Component component: pnlPracticas.getComponents()) {
             if (component instanceof JTextField) {
-                String value = ((JTextField) component).getText();
                 String resultadoIngresado = ((JTextField) component).getText();
                 Integer codigoPractica = Integer.parseInt(component.getName());
                 agregarResultadoAPractica(codigoPractica, resultadoIngresado);
@@ -73,7 +76,16 @@ public class CargarResultadosScreen extends JDialog {
         }
     }
 
+    private Boolean practicaTieneResultado (Integer codigo) {
+        ArrayList<Resultado> resultadosYaCargados = peticionData.getResultados();
+        for (Resultado resultado : resultadosYaCargados) {
+            if (resultado.getPractica().getCodigo().equals(codigo)) {
+                return true;
+            }
+        }
 
+        return false;
+    }
 
     private void agregarResultadoAPractica (Integer codigo, String resultado) {
         try {
@@ -101,4 +113,18 @@ public class CargarResultadosScreen extends JDialog {
         }
     }
 
+    private String getPracticaResult (Integer codigo) {
+        ArrayList<Resultado> resultadosYaCargados = peticionData.getResultados();
+        for (Resultado resultado : resultadosYaCargados) {
+            if (resultado.getPractica().getCodigo().equals(codigo)) {
+                if (resultado.getPractica().getTieneResultadosNumericos()) {
+                    return resultado.getResultado().toString();
+                }
+
+                return resultado.getEsReactivo() ? "reactivo" : "no reactivo";
+            }
+        }
+
+        return null;
+    }
 }
