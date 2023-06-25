@@ -75,6 +75,7 @@ public class BuscarPeticion extends JDialog {
                 openCargaDeResultadosScreen();
                 break;
             case "verResultados":
+                openVerResultadosScreen();
                 break;
         }
     }
@@ -82,6 +83,11 @@ public class BuscarPeticion extends JDialog {
     private void openCargaDeResultadosScreen () {
         CargarResultadosScreen form = new CargarResultadosScreen(self, "Peticiones", peticionData);
         form.setVisible(true);
+    }
+
+    private void openVerResultadosScreen () {
+        ResultadosDeUnaPeticionScreen screen = new ResultadosDeUnaPeticionScreen(self, "Peticiones", peticionData);
+        screen.setVisible(true);
     }
 
 }
