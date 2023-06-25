@@ -93,10 +93,7 @@ public class ControllerPacienteSucursal {
     }
 
     public static Sucursal dtoToSucursal (PacienteSucursalDto dto) {
-        Sucursal sucursal = new Sucursal();
-        sucursal.setNumeroSucursal(dto.getNumeroSucursal());
-        sucursal.setNombreSucursal(dto.getNombreSucursal());
-        sucursal.setDireccion(dto.getDireccionSucursal());
+        Sucursal sucursal = new Sucursal(dto.getNumeroSucursal(), dto.getNombreSucursal(), dto.getDireccionSucursal());
         return sucursal;
     }
 
@@ -221,15 +218,39 @@ public class ControllerPacienteSucursal {
         return true;
     }
 
+    public boolean asociarPeticionASucursal (Peticiones peticion, PacienteSucursalDto sucursalDto){
+        Integer sucursalIndex = getSucursalIndex(sucursalDto.getNumeroSucursal());
+        Sucursal sucursal = sucursalesArrayList.get(sucursalIndex);
+        sucursal.agregarPeticion(peticion);
+        return true;
+    }
+
     public ArrayList<Peticiones> getPeticionesPorPaciente (PacienteSucursalDto pacienteDto) {
         Integer pacienteIndex = getPacienteIndex(pacienteDto.getIdPaciente());
         Paciente paciente = pacientesArrayList.get(pacienteIndex);
         return paciente.getPeticiones();
     }
 
+    public ArrayList<Peticiones> getPeticionesPorSucursaL (PacienteSucursalDto sucursalDto) {
+        Integer sucursalIndex = getSucursalIndex(sucursalDto.getNumeroSucursal());
+        Sucursal sucursal = sucursalesArrayList.get(sucursalIndex);
+        return sucursal.getPeticionesList();
+    }
+
     public Boolean tienePeticionesFinalizadas (PacienteSucursalDto pacienteDTO) {
         ArrayList<Peticiones> peticionesDePaciente = getPeticionesPorPaciente(pacienteDTO);
         for (Peticiones peticion: peticionesDePaciente) {
+            if (peticion.resultadosCompletos()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Boolean sucursalTienePeticionesFinalizadas (PacienteSucursalDto sucursalDto) {
+        ArrayList<Peticiones> peticionesDeSucursal = this.getPeticionesPorSucursaL(sucursalDto);
+        for (Peticiones peticion: peticionesDeSucursal) {
             if (peticion.resultadosCompletos()) {
                 return true;
             }

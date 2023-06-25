@@ -7,17 +7,14 @@ public class Sucursal {
     private String nombre;
     private String direccion;
     private String responsableTecnico;
-    private ArrayList peticiones;
+    private ArrayList<Peticiones> peticionesList;
 
     public Sucursal(){};
     public Sucursal(Integer number, String name, String direccion) {
         this.numeroSucursal = number;
         this.nombre = name;
         this.direccion = direccion;
-    }
-
-    public ArrayList getPeticiones () {
-        return  peticiones;
+        this.peticionesList = new ArrayList<>();
     }
 
     public Integer getNumeroSucursal () {
@@ -43,6 +40,14 @@ public class Sucursal {
     }
 
     public void setPeticiones(ArrayList peticiones) {
-        this.peticiones = peticiones;
+        this.peticionesList = peticiones;
+    }
+
+    public void agregarPeticion (Peticiones peticion) {
+        peticionesList.add(peticion);
+    }
+
+    public ArrayList<Peticiones> getPeticionesList () {
+        return this.peticionesList;
     }
 }

@@ -1,6 +1,7 @@
 package Vistas.Peticiones;
 
 import Vistas.utils.Utils;
+import controllers.ControllerPacienteSucursal;
 import controllers.ControllerPracticasPeticiones;
 import dto.PacienteSucursalDto;
 import dto.PracticaPeticionDto;
@@ -10,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class AltaPeticionesScreen extends JDialog {
     private JPanel pnlPrincipal;
@@ -30,6 +30,7 @@ public class AltaPeticionesScreen extends JDialog {
     private JPanel pnlPracticas;
     private JTextField practicaInput;
     private JTextField numeroInput;
+    private JTextField numeroSucursalInput;
     private PacienteSucursalDto pacienteData;
     private ArrayList<Integer> practicasIds = new ArrayList<Integer>();
 
@@ -52,22 +53,24 @@ public class AltaPeticionesScreen extends JDialog {
         crearPeticiónButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!validatePracticesFromPanel() || Utils.isAnyFieldEmpty(numeroInput.getText(), obraSocialInput.getText(), fechaCargaInput.getText(), fechaEntregaInput.getText())) {
+                if (!validatePracticesFromPanel() || Utils.isAnyFieldEmpty(numeroInput.getText(), obraSocialInput.getText(), fechaCargaInput.getText(), fechaEntregaInput.getText(), numeroSucursalInput.getText())) {
                     return;
                 }
 
-                if (!Utils.isNumeric(numeroInput.getText())) {
+                if (!Utils.isNumeric(numeroInput.getText()) || !sucursalValida(numeroSucursalInput.getText())) {
                     return;
                 }
                 try {
                     ControllerPracticasPeticiones controllerPeticion = ControllerPracticasPeticiones.getInstance();
+                    ControllerPacienteSucursal controllerSucursal = ControllerPacienteSucursal.getInstance();
                     Integer peticionId = Integer.parseInt(numeroInput.getText());
                     if (controllerPeticion.peticionExistente(peticionId)) {
                         JOptionPane.showMessageDialog(null, "El número de petición ya existe");
                         return;
                     }
 
-                    PracticaPeticionDto peticionDto = new PracticaPeticionDto(peticionId, pacienteData, fechaCargaInput.getText(), fechaEntregaInput.getText());
+                    PacienteSucursalDto sucursalDto = controllerSucursal.getSucursalDTO(Integer.parseInt(numeroSucursalInput.getText()));
+                    PracticaPeticionDto peticionDto = new PracticaPeticionDto(peticionId, pacienteData, fechaCargaInput.getText(), fechaEntregaInput.getText(), sucursalDto);
                     boolean peticionAgregadaExitosamente = controllerPeticion.addPeticionExitosamente(peticionDto);
 
                     if (!peticionAgregadaExitosamente) {
@@ -79,6 +82,7 @@ public class AltaPeticionesScreen extends JDialog {
                     }
 
                     boolean peticionToPacienteExitosamente = controllerPeticion.addPeticionToPacienteExitosamente(peticionDto, pacienteData);
+                    boolean peticionToSucursalExitosamente = controllerPeticion.addPeticionToSucursalExitosamente(peticionDto, sucursalDto);
                     JOptionPane.showMessageDialog(null, "Petición creada");
                     self.setVisible(false);
                 } catch (Exception ex) {
@@ -127,6 +131,26 @@ public class AltaPeticionesScreen extends JDialog {
                 throw new RuntimeException(ex);
             }
         }
+        return false;
+    }
+
+    private Boolean sucursalValida (String numeroSucursal) {
+        if (!Utils.isNumeric(numeroSucursal)) {
+            return false;
+        }
+
+        Integer sucursalID = Integer.parseInt(numeroSucursal);
+        ControllerPacienteSucursal controller = null;
+        try {
+            controller = ControllerPacienteSucursal.getInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (controller.sucursalExistente(sucursalID)) {
+            return true;
+        }
+
+        JOptionPane.showMessageDialog(null, "Sucursal número " +numeroSucursal + " no encontrada");
         return false;
     }
 

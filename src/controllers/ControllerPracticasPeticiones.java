@@ -55,6 +55,7 @@ public class ControllerPracticasPeticiones {
         peticion.setPaciente(controller.dtoToPaciente(dto.getPaciente()));
         peticion.setFechaCarga(dto.getFechaCarga());
         peticion.setFechaEntrega(dto.getFechaEntrega());
+        peticion.setSucursal(controller.dtoToSucursal(dto.getSucursal()));
         return peticion;
     }
 
@@ -177,6 +178,11 @@ public class ControllerPracticasPeticiones {
     public boolean addPeticionToPacienteExitosamente (PracticaPeticionDto peticionDto, PacienteSucursalDto pacienteDto) throws Exception {
         Peticiones peticion = listPeticiones.get(getPeticionIndex(peticionDto.getNumeroPeticion()));
         return ControllerPacienteSucursal.getInstance().asociarPeticionAPaciente(peticion, pacienteDto);
+    }
+
+    public boolean addPeticionToSucursalExitosamente (PracticaPeticionDto peticionDto, PacienteSucursalDto sucursalDto) throws Exception {
+        Peticiones peticion = listPeticiones.get(getPeticionIndex(peticionDto.getNumeroPeticion()));
+        return ControllerPacienteSucursal.getInstance().asociarPeticionASucursal(peticion, sucursalDto);
     }
 
     public PracticaPeticionDto getPeticionDto (Integer peticionId) {

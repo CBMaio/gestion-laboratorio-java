@@ -50,10 +50,10 @@ public class BajaSucursalScreen extends JDialog {
             Boolean existeSucursal = controllerInstance.sucursalExistente(validId);
             if (existeSucursal) {
                 PacienteSucursalDto sucursalDto = controllerInstance.getSucursalDTO(validId);
-//                if (!puedeEliminarse(sucursalDto)) {
-//                    JOptionPane.showMessageDialog(null, "Este paciente tiene peticiones con resultados finalizados, por lo tanto no puede ser eliminado.");
-//                    return;
-//                }
+                if (!puedeEliminarse(sucursalDto)) {
+                    JOptionPane.showMessageDialog(null, "Esta sucursal tiene peticiones con resultados finalizados, por lo tanto no puede ser eliminada.");
+                    return;
+                }
 
                 controllerInstance.deleteBySucursalId(validId);
                 JOptionPane.showMessageDialog(null, "Sucursal dada de baja exitosamente");
@@ -67,12 +67,12 @@ public class BajaSucursalScreen extends JDialog {
         }
     }
 
-//    private Boolean puedeEliminarse (PacienteSucursalDto pacienteDTO) {
-//        try {
-//            ControllerPacienteSucursal controllerInstance = ControllerPacienteSucursal.getInstance();
-//            return !controllerInstance.tienePeticionesFinalizadas(pacienteDTO);
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    private Boolean puedeEliminarse (PacienteSucursalDto sucursalDto) {
+        try {
+            ControllerPacienteSucursal controllerInstance = ControllerPacienteSucursal.getInstance();
+            return !controllerInstance.sucursalTienePeticionesFinalizadas(sucursalDto);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

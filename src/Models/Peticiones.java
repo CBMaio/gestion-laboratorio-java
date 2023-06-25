@@ -12,6 +12,7 @@ public class Peticiones {
     private String fechaCarga;
     private String fechaEntrega;
     private ArrayList<Resultado> resultados = new ArrayList<Resultado>();
+    private Sucursal sucursal;
 
     public Peticiones(){}
     public Peticiones (Integer numeroPeticion, String obraSocial, String fechaCarga, String fechaEntrega) {
@@ -126,4 +127,11 @@ public class Peticiones {
         return false;
     }
 
+    public Sucursal getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
+    }
 }

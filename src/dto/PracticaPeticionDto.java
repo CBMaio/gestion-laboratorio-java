@@ -1,7 +1,9 @@
 package dto;
 
+import Models.Paciente;
 import Models.Practica;
 import Models.Resultado;
+import Models.Sucursal;
 import controllers.ControllerPracticasPeticiones;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class PracticaPeticionDto {
     private PacienteSucursalDto paciente;
     private ArrayList<Practica> practicas;
     private ArrayList<Resultado> resultados;
+    private PacienteSucursalDto sucursal;
 
     public PracticaPeticionDto(Integer codigoPractica, Integer numeroPeticion, String nombrePractica, String nombrePeticion) {
         this.numeroPeticion = numeroPeticion;
@@ -42,11 +45,12 @@ public class PracticaPeticionDto {
         this.tieneResultadosNumericos = tieneResultadosNumericos;
     }
 
-    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente, String fechaCarga, String fechaEntrega) {
+    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente, String fechaCarga, String fechaEntrega, PacienteSucursalDto sucursal) {
         this.numeroPeticion = numeroPeticion;
         this.paciente = paciente;
         this.fechaCarga = fechaCarga;
         this.fechaEntrega = fechaEntrega;
+        this.sucursal = sucursal;
     }
 
     public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente, String fechaCarga, String fechaEntrega, ArrayList<Practica> practicas, ArrayList<Resultado> resultados) {
@@ -167,5 +171,13 @@ public class PracticaPeticionDto {
 
     public ArrayList<Resultado> getResultados () {
         return this.resultados;
+    }
+
+    public PacienteSucursalDto getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(PacienteSucursalDto sucursal) {
+        this.sucursal = sucursal;
     }
 }

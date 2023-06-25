@@ -76,7 +76,8 @@ public class SucursalScreen extends JDialog {
         ArrayList<Sucursal> sucursales = ControllerPacienteSucursal.getInstance().mostrarSucursal();
         ListaModel lista = new ListaModel();
         for (Sucursal item : sucursales) {
-            lista.add(item.getNombre());
+            String value = item.getNumeroSucursal().toString() + " - " + item.getNombre();
+            lista.add(value);
         }
 
         return lista;
