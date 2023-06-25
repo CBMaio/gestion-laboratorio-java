@@ -36,7 +36,13 @@ public class ControllerPracticasPeticiones {
     public static ArrayList<Practica> getPracticasList() {
         ArrayList practicas = new ArrayList();
         Practica practica1 = new Practica(1, "colesterol", 1, 1.00f, "critico", 0.00f,200.00f, true);
+        Practica practica2 = new Practica(2, "hdl", 1, 1.00f, "critico", 0.00f,200.00f, true);
+        Practica practica3 = new Practica(3, "ldl", 1, 1.00f, "critico", 0.00f,200.00f, true);
+
         practicas.add(practica1);
+        practicas.add(practica2);
+        practicas.add(practica3);
+
         return practicas;
     }
 
@@ -166,9 +172,9 @@ public class ControllerPracticasPeticiones {
         return -1;
     }
 
-    public PracticaPeticionDto getPracticaDTO (Integer dni) {
+    public PracticaPeticionDto getPracticaDTO (Integer codigo) {
         for (int i=0;i<listPracticas.size();i++){
-            if(listPracticas.get(i).getCodigo() != null && listPracticas.get(i).getCodigo().equals(dni)){
+            if(listPracticas.get(i).getCodigo() != null && listPracticas.get(i).getCodigo().equals(codigo)){
                 Practica selected = listPracticas.get(i);
                 return new PracticaPeticionDto(selected.getCodigo(), selected.getNombre(), selected.getGrupo(), selected.getTiempoDeDemora(), selected.getTipoDePracica(), selected.getValorReferenciaMinimo(), selected.getValorReferenciaMaximo(), selected.getTieneResultadosNumericos());
             }
@@ -202,11 +208,6 @@ public class ControllerPracticasPeticiones {
         return ControllerPacienteSucursal.getInstance().asociarPeticionAPaciente(peticion, pacienteDto);
     }
 
-    public ArrayList<Practica> getPracticasPorPeticion (Integer idPeticion) {
-        Peticiones peticion = listPeticiones.get(this.getPeticionIndex(idPeticion));
-        return peticion.getPracticas();
-    }
-
     public PracticaPeticionDto getPeticionDto (Integer peticionId) {
         for (int i=0;i<listPeticiones.size();i++){
             if(listPeticiones.get(i).getNumeroPeticion().equals(peticionId)){
@@ -225,5 +226,14 @@ public class ControllerPracticasPeticiones {
         return null;
     }
 
+    public void setResultadoToPractica (PracticaPeticionDto practicaDto, PracticaPeticionDto peticionDto, Integer resultado) {
+        Peticiones peticion = listPeticiones.get(getPeticionIndex(peticionDto.getNumeroPeticion()));
+        peticion.setResultadoToPractica(practicaDto.getCodigoPractica(), resultado);
+    }
+
+    public void setResultadoToPractica (PracticaPeticionDto practicaDto, PracticaPeticionDto peticionDto, Boolean resultado) {
+        Peticiones peticion = listPeticiones.get(getPeticionIndex(peticionDto.getNumeroPeticion()));
+        peticion.setResultadoToPractica(practicaDto.getCodigoPractica(), resultado);
+    }
 
 }

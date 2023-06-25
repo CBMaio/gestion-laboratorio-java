@@ -1,7 +1,9 @@
 package Vistas.Peticiones;
 
 import Models.Peticiones;
+import Models.Resultado;
 import Vistas.Listas.ListaPeticiones;
+import Vistas.Listas.ListaPeticionesCriticas;
 import Vistas.utils.ListaModel;
 import controllers.ControllerPracticasPeticiones;
 import dto.PacienteSucursalDto;
@@ -23,6 +25,8 @@ public class PeticionesScreen extends JDialog {
     private JButton modificaciónButton;
     private JButton listarPeticionesButton;
     private JButton cargarResultadosButton;
+    private JButton listarPeticionesConValoresButton;
+    private JButton verResultadosDeUnaButton;
     private PeticionesScreen self;
     private PacienteSucursalDto pacienteData;
     private ListaModel model = new ListaModel();
@@ -31,7 +35,7 @@ public class PeticionesScreen extends JDialog {
         super(owner, title);
         this.setContentPane(pnlPrincipal);
         this.setModal(true);
-        this.setSize(400,400);
+        this.setSize(400,550);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.self = this;
@@ -58,11 +62,29 @@ public class PeticionesScreen extends JDialog {
                 lista.setVisible(true);
             }
         });
+        listarPeticionesConValoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    model = getPeticionesCriticas();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                ListaPeticionesCriticas lista = new ListaPeticionesCriticas(self, "Peticiones", model);
+                lista.setVisible(true);
+            }
+        });
         cargarResultadosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BuscarPeticion form = new BuscarPeticion(self, "Peticiones");
                 form.setVisible(true);
+            }
+        });
+        verResultadosDeUnaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -76,6 +98,25 @@ public class PeticionesScreen extends JDialog {
             String fecha = item.getFechaCarga();
             String nombrePaciente = item.getPaciente().getNombreCompleto();
             lista.add(numero + " - " + nombrePaciente + " - " + fecha);
+        }
+
+        return lista;
+    }
+
+    private ListaModel getPeticionesCriticas () throws Exception {
+        ControllerPracticasPeticiones controller = ControllerPracticasPeticiones.getInstance();
+        ArrayList<Peticiones> peticiones = controller.mostrarPeticiones();
+        ListaModel lista = new ListaModel();
+        for (Peticiones item : peticiones) {
+            ArrayList<Resultado> resultadosPorPeticion = item.getResultados();
+            for (Resultado resultado: resultadosPorPeticion) {
+                if (resultado.getValorCritico()) {
+                    String numero = item.getNumeroPeticion().toString();
+                    String fecha = item.getFechaCarga();
+                    String nombrePaciente = item.getPaciente().getNombreCompleto();
+                    lista.add(numero + " - " + nombrePaciente + " - " + fecha);
+                }
+            }
         }
 
         return lista;

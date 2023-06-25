@@ -149,4 +149,8 @@ public class PracticaPeticionDto {
         this.fechaEntrega = fechaEntrega;
     }
 
+    public ArrayList<Practica> getPracticas () {
+        return this.practicas;
+    }
+
 }

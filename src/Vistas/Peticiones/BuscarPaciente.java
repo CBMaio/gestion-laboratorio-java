@@ -40,7 +40,9 @@ public class BuscarPaciente extends JDialog{
                 String dni = dniInput.getText();
                 if (Utils.isNumeric(dni)) {
                     try {
-                        buscarPaciente(Integer.parseInt(dni));
+                        if (!buscarPacienteExitosamente(Integer.parseInt(dni))) {
+                            return;
+                        }
                         openScreen(action);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
@@ -50,17 +52,18 @@ public class BuscarPaciente extends JDialog{
         });
     }
 
-    private void buscarPaciente (Integer dni) throws Exception {
+    private Boolean buscarPacienteExitosamente (Integer dni) throws Exception {
         ControllerPacienteSucursal controller = ControllerPacienteSucursal.getInstance();
         if (controller.pacienteExistente(dni)) {
             PacienteSucursalDto pacienteDTO = controller.getPacienteDTO(dni);
             this.pacienteData = pacienteDTO;
-            return;
+            return true;
         } else  {
             JOptionPane.showMessageDialog(null, "Paciente no encontrado");
         }
         dniInput.setText(null);
         dniInput.requestFocus();
+        return false;
     }
 
     private void openScreen (String action) {

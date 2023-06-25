@@ -1,5 +1,6 @@
 package Models;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class Peticiones {
@@ -10,6 +11,7 @@ public class Peticiones {
     private ArrayList<Practica> practicas = new ArrayList<Practica>();
     private String fechaCarga;
     private String fechaEntrega;
+    private ArrayList<Resultado> resultados = new ArrayList<Resultado>();
 
     public Peticiones(){}
     public Peticiones (Integer numeroPeticion, String obraSocial, String fechaCarga, String fechaEntrega) {
@@ -28,10 +30,7 @@ public class Peticiones {
     public void setNombrePeticion (String name) {
         this.nombrePeticion = name;
     }
-//    public String getEstadoFinal(){}
-//    public ArrayList getPracticasCriticas() {}
-//    public ArrayList getPracticasReservadas() {}
-//    public void mostrarResultados(){}
+
 
     public void addPractica (Practica practica) {
         practicas.add(practica);
@@ -64,4 +63,42 @@ public class Peticiones {
     public void setFechaEntrega(String fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
+
+    public void setResultadoToPractica (Integer codigoPractica, Integer resultado) {
+        Integer practicaIndex = buscarPracticaIndex(codigoPractica);
+        if (practicaIndex.equals(-1)) {
+            JOptionPane.showMessageDialog(null, "No se entontró la práctica");
+            return;
+        }
+        Practica practicaItem = practicas.get(practicaIndex);
+        Resultado resultadoModel = new Resultado(resultado, practicaItem);
+        resultados.add(resultadoModel);
+    }
+
+    public void setResultadoToPractica (Integer codigoPractica, Boolean resultado) {
+        Integer practicaIndex = buscarPracticaIndex(codigoPractica);
+        if (practicaIndex.equals(-1)) {
+            JOptionPane.showMessageDialog(null, "No se entontró la práctica");
+            return;
+        }
+        Practica practicaItem = practicas.get(practicaIndex);
+        Resultado resultadoModel = new Resultado(resultado, practicaItem);
+        resultados.add(resultadoModel);
+    }
+
+    private Integer buscarPracticaIndex (Integer codigoPractica) {
+        for (int i = 0; i < practicas.size(); i++) {
+            if (practicas.get(i).getCodigo().equals(codigoPractica)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public ArrayList<Resultado> getResultados () {
+        return this.resultados;
+    }
+
+
 }

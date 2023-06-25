@@ -41,6 +41,8 @@ public class BuscarPeticion extends JDialog {
                 if (Utils.isNumeric(id)) {
                     try {
                         buscarPeticion(Integer.parseInt(id));
+                        peticionIdInput.setText(null);
+                        peticionIdInput.requestFocus();
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -54,6 +56,8 @@ public class BuscarPeticion extends JDialog {
         if (controller.peticionExistente(id)) {
             PracticaPeticionDto peticionDTO = controller.getPeticionDto(id);
             this.peticionData = peticionDTO;
+            CargarResultadosScreen form = new CargarResultadosScreen(self, "Peticiones", peticionData);
+            form.setVisible(true);
             return;
         } else  {
             JOptionPane.showMessageDialog(null, "Petición no encontrada");

@@ -7,13 +7,12 @@ public class Practica {
     private String nombre;
     private Integer grupo;
     private Float tiempoDeDemora;
-    private Integer resultado;
     private Float valorReferenciaMinimo;
     private Float valorReferenciaMaximo;
     private String tipoDePracica;
-    private Boolean tieneResultadosNumericos;
     // tipo de practica podrá ser 'critico' o 'reservado'. Por ejemplo, un análisis de HIV es 'reservado',
     // un resultado de colesterol o glucemia, es crítico.
+    private Boolean tieneResultadosNumericos;
 
     public Practica(){}
 
@@ -45,11 +44,6 @@ public class Practica {
 //    public Boolean esReservado (){};
 //    public Boolean esCritico (){};
 
-    public void setResultado (Integer resultado) { this.resultado = resultado; }
-
-    public Integer getResultado () {
-        return resultado;
-    }
 
     public Integer getGrupo() {
         return grupo;
@@ -104,4 +98,5 @@ public class Practica {
     public void setTieneResultadosNumericos(Boolean tieneResultadosNumericos) {
         this.tieneResultadosNumericos = tieneResultadosNumericos;
     }
+
 }
