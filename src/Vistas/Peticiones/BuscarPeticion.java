@@ -22,7 +22,7 @@ public class BuscarPeticion extends JDialog {
     private BuscarPeticion self;
     private PracticaPeticionDto peticionData;
 
-    public BuscarPeticion (Window owner, String title) {
+    public BuscarPeticion (Window owner, String title, String action) {
         super(owner, title);
         this.setContentPane(pnlPrincipal);
         this.setModal(true);
@@ -30,17 +30,20 @@ public class BuscarPeticion extends JDialog {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.self = this;
-        this.asociarEventos();
+        this.asociarEventos(action);
     }
 
-    private void asociarEventos(){
+    private void asociarEventos(String action){
         buscarPeticiónButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = peticionIdInput.getText();
                 if (Utils.isNumeric(id)) {
                     try {
-                        buscarPeticion(Integer.parseInt(id));
+                        if (!buscarPeticionExitosamente(Integer.parseInt(id))) {
+                            return;
+                        }
+                        openScreen(action);
                         peticionIdInput.setText(null);
                         peticionIdInput.requestFocus();
                     } catch (Exception ex) {
@@ -51,19 +54,34 @@ public class BuscarPeticion extends JDialog {
         });
     }
 
-    private void buscarPeticion (Integer id) throws Exception {
+    private Boolean buscarPeticionExitosamente (Integer id) throws Exception {
         ControllerPracticasPeticiones controller = ControllerPracticasPeticiones.getInstance();
         if (controller.peticionExistente(id)) {
             PracticaPeticionDto peticionDTO = controller.getPeticionDto(id);
             this.peticionData = peticionDTO;
-            CargarResultadosScreen form = new CargarResultadosScreen(self, "Peticiones", peticionData);
-            form.setVisible(true);
-            return;
+            return true;
         } else  {
             JOptionPane.showMessageDialog(null, "Petición no encontrada");
         }
         peticionIdInput.setText(null);
         peticionIdInput.requestFocus();
+        return false;
+    }
+
+
+    private void openScreen (String action) {
+        switch (action) {
+            case "cargaResultados":
+                openCargaDeResultadosScreen();
+                break;
+            case "verResultados":
+                break;
+        }
+    }
+
+    private void openCargaDeResultadosScreen () {
+        CargarResultadosScreen form = new CargarResultadosScreen(self, "Peticiones", peticionData);
+        form.setVisible(true);
     }
 
 }

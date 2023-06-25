@@ -93,10 +93,16 @@ public class Resultado {
     }
 
     public Boolean getValorCritico() {
+        if (this.valorCritico == null) {
+            return false;
+        }
         return valorCritico;
     }
 
     public Boolean getValorReservado() {
+        if (this.valorReservado == null) {
+            return false;
+        }
         return valorReservado;
     }
 }

@@ -26,7 +26,7 @@ public class PeticionesScreen extends JDialog {
     private JButton listarPeticionesButton;
     private JButton cargarResultadosButton;
     private JButton listarPeticionesConValoresButton;
-    private JButton verResultadosDeUnaButton;
+    private JButton verResultadosDePeticionButton;
     private PeticionesScreen self;
     private PacienteSucursalDto pacienteData;
     private ListaModel model = new ListaModel();
@@ -77,14 +77,15 @@ public class PeticionesScreen extends JDialog {
         cargarResultadosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BuscarPeticion form = new BuscarPeticion(self, "Peticiones");
+                BuscarPeticion form = new BuscarPeticion(self, "Peticiones", "cargaResultados");
                 form.setVisible(true);
             }
         });
-        verResultadosDeUnaButton.addActionListener(new ActionListener() {
+        verResultadosDePeticionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                BuscarPeticion form = new BuscarPeticion(self, "Peticiones", "verResultados");
+                form.setVisible(true);
             }
         });
     }
@@ -121,5 +122,4 @@ public class PeticionesScreen extends JDialog {
 
         return lista;
     }
-
 }

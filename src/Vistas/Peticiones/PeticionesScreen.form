@@ -81,7 +81,7 @@
               <text value="Listar peticiones con valores críticos"/>
             </properties>
           </component>
-          <component id="2b319" class="javax.swing.JButton" binding="verResultadosDeUnaButton" default-binding="true">
+          <component id="2b319" class="javax.swing.JButton" binding="verResultadosDePeticionButton">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
