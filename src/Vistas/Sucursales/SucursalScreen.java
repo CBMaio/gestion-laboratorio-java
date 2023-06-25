@@ -43,6 +43,13 @@ public class SucursalScreen extends JDialog {
                 altaSucursal.setVisible(true);
             }
         });
+        modificaciónButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BuscarSucursal form = new BuscarSucursal(self, "Sucursales");
+                form.setVisible(true);
+            }
+        });
 
         listarSucursalesButton.addActionListener(new ActionListener() {
             @Override
@@ -54,6 +61,13 @@ public class SucursalScreen extends JDialog {
                 }
                 ListaSucursal lista = new ListaSucursal(self, "Sucursales", model);
                 lista.setVisible(true);
+            }
+        });
+        bajaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BajaSucursalScreen form = new BajaSucursalScreen(self, "Sucursales");
+                form.setVisible(true);
             }
         });
     }

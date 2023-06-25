@@ -75,8 +75,6 @@ public class PacientesModificacionScreen extends JDialog{
                         throw new RuntimeException(ex);
                     }
                 }
-
-
             }
         });
     }

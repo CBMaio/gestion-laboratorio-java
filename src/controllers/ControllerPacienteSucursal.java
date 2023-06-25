@@ -28,7 +28,6 @@ public class ControllerPacienteSucursal {
 
     public static ArrayList<Sucursal> getSucursalesList() {
         ArrayList sucursales = new ArrayList();
-        sucursales.add(new Sucursal());
         return sucursales;
     }
 
@@ -153,9 +152,25 @@ public class ControllerPacienteSucursal {
         }
     }
 
+    public void deleteBySucursalId(Integer id){
+        int index = getSucursalIndex(id);
+        if(index != -1){
+            sucursalesArrayList.remove(index);
+        }
+    }
+
     private int getPacienteIndex(Integer id){
         for (int i=0;i<pacientesArrayList.size();i++){
             if(pacientesArrayList.get(i).getId().equals(id)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private int getSucursalIndex(Integer id){
+        for (int i=0;i<sucursalesArrayList.size();i++){
+            if(sucursalesArrayList.get(i).getNumeroSucursal().equals(id)){
                 return i;
             }
         }
@@ -173,6 +188,17 @@ public class ControllerPacienteSucursal {
         return null;
     }
 
+    public PacienteSucursalDto getSucursalDTO (Integer id) {
+        for (int i=0;i<sucursalesArrayList.size();i++){
+            if(sucursalesArrayList.get(i).getNumeroSucursal().equals(id)){
+                Sucursal selected = sucursalesArrayList.get(i);
+                return new PacienteSucursalDto(selected.getNumeroSucursal(), selected.getDireccion(), selected.getNombre());
+            }
+        }
+
+        return null;
+    }
+
     public void modificarPaciente (PacienteSucursalDto dto) {
         Integer indexPaciente = getPacienteIndex(dto.getIdPaciente());
         pacientesArrayList.get(indexPaciente).setDni(dto.getIdPaciente());
@@ -180,6 +206,12 @@ public class ControllerPacienteSucursal {
         pacientesArrayList.get(indexPaciente).setApellido(dto.getApellido());
         pacientesArrayList.get(indexPaciente).setDomicilio(dto.getDomicilio());
         pacientesArrayList.get(indexPaciente).setMail(dto.getMail());
+    }
+
+    public void modificarSucursal (PacienteSucursalDto dto) {
+        Integer indexSucursal = getSucursalIndex(dto.getNumeroSucursal());
+        sucursalesArrayList.get(indexSucursal).setDireccion(dto.getDireccionSucursal());
+        sucursalesArrayList.get(indexSucursal).setNombreSucursal(dto.getNombreSucursal());
     }
 
     public boolean asociarPeticionAPaciente (Peticiones peticion, PacienteSucursalDto pacienteDto){
