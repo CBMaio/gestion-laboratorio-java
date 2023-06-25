@@ -1,6 +1,8 @@
 package dto;
 
 import Models.Practica;
+import Models.Resultado;
+import controllers.ControllerPracticasPeticiones;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,7 @@ public class PracticaPeticionDto {
     private String fechaEntrega;
     private PacienteSucursalDto paciente;
     private ArrayList<Practica> practicas;
+    private ArrayList<Resultado> resultados;
 
     public PracticaPeticionDto(Integer codigoPractica, Integer numeroPeticion, String nombrePractica, String nombrePeticion) {
         this.numeroPeticion = numeroPeticion;
@@ -46,12 +49,13 @@ public class PracticaPeticionDto {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente, String fechaCarga, String fechaEntrega, ArrayList<Practica> practicas) {
+    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente, String fechaCarga, String fechaEntrega, ArrayList<Practica> practicas, ArrayList<Resultado> resultados) {
         this.numeroPeticion = numeroPeticion;
         this.paciente = paciente;
         this.fechaCarga = fechaCarga;
         this.fechaEntrega = fechaEntrega;
         this.practicas = practicas;
+        this.resultados = resultados;
     }
 
     public Integer getNumeroPeticion() { return numeroPeticion; }
@@ -153,4 +157,15 @@ public class PracticaPeticionDto {
         return this.practicas;
     }
 
+    public Boolean tieneResultados () {
+        if (resultados.size() > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public ArrayList<Resultado> getResultados () {
+        return this.resultados;
+    }
 }

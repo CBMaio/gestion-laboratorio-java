@@ -86,6 +86,10 @@ public class BuscarPeticion extends JDialog {
     }
 
     private void openVerResultadosScreen () {
+        if (!peticionData.tieneResultados()) {
+            JOptionPane.showMessageDialog(null, "La petición seleccionada no tiene resultados cargados");
+            return;
+        }
         ResultadosDeUnaPeticionScreen screen = new ResultadosDeUnaPeticionScreen(self, "Peticiones", peticionData);
         screen.setVisible(true);
     }

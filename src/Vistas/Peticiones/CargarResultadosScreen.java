@@ -25,7 +25,8 @@ public class CargarResultadosScreen extends JDialog {
         super(owner, title);
         this.setContentPane(pnlPrincipal);
         this.setModal(true);
-        this.setSize(400,200);
+        Integer customHeight = 150 + ((peticionData.getPracticas().size()) * 40);
+        this.setSize(400,customHeight);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.asociarEventos();
@@ -39,7 +40,7 @@ public class CargarResultadosScreen extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 validarResultados();
-                JOptionPane.showMessageDialog(null, "Los resultados fueron cargados correctamente");
+                JOptionPane.showMessageDialog(null, "Resultados cargados");
                 self.setVisible(false);
             }
         });
@@ -65,13 +66,9 @@ public class CargarResultadosScreen extends JDialog {
         for (Component component: pnlPracticas.getComponents()) {
             if (component instanceof JTextField) {
                 String value = ((JTextField) component).getText();
-                if (value.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Todos los resultados deben estar completos");
-                    return;
-                }
-
                 String resultadoIngresado = ((JTextField) component).getText();
-                agregarResultadoAPractica(Integer.parseInt(component.getName()), resultadoIngresado);
+                Integer codigoPractica = Integer.parseInt(component.getName());
+                agregarResultadoAPractica(codigoPractica, resultadoIngresado);
             }
         }
     }
@@ -82,6 +79,9 @@ public class CargarResultadosScreen extends JDialog {
         try {
             ControllerPracticasPeticiones controller = ControllerPracticasPeticiones.getInstance();
             PracticaPeticionDto practica = controller.getPracticaDTO(codigo);
+            if (resultado.isEmpty()) {
+                return;
+            }
             if (practica.getTieneResultadosNumericos()) {
                 if (Utils.isNumeric(resultado)) {
                     controller.setResultadoToPractica(practica, peticionData, Integer.parseInt(resultado));

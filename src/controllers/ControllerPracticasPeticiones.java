@@ -1,9 +1,6 @@
 package controllers;
 
-import Models.Paciente;
-import Models.Peticiones;
-import Models.Practica;
-import Models.Sucursal;
+import Models.*;
 import dto.PacienteSucursalDto;
 import dto.PracticaPeticionDto;
 
@@ -44,32 +41,6 @@ public class ControllerPracticasPeticiones {
         practicas.add(practica3);
 
         return practicas;
-    }
-
-    public static PracticaPeticionDto modelsToDto(Practica model, Peticiones modelPeticion){
-        return new PracticaPeticionDto(model.getCodigo(), modelPeticion.getNumeroPeticion(), model.getNombre(), modelPeticion.getNombrePeticion());
-    }
-
-    public PracticaPeticionDto getDtoByIdPracticaIdPeticion (Integer codigoPractica, Integer idPeticion) throws Exception {
-        Practica practica = null;
-        Peticiones peticion = null;
-        for (Practica model: listPracticas) {
-            if (model.getCodigo().equals(codigoPractica)){
-                practica = model;
-            }
-        }
-
-        for (Peticiones model: listPeticiones) {
-            if (model.getNumeroPeticion().equals(idPeticion)){
-                peticion = model;
-            }
-        }
-
-        if ((practica == null) || (peticion == null)) {
-            return  null;
-        }
-
-        return modelsToDto(practica, peticion);
     }
 
     public static Practica dtoToPractica(PracticaPeticionDto dto){
@@ -218,7 +189,7 @@ public class ControllerPracticasPeticiones {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                PracticaPeticionDto peticion = new PracticaPeticionDto(selected.getNumeroPeticion(), paciente, selected.getFechaCarga(), selected.getFechaEntrega(), selected.getPracticas() );
+                PracticaPeticionDto peticion = new PracticaPeticionDto(selected.getNumeroPeticion(), paciente, selected.getFechaCarga(), selected.getFechaEntrega(), selected.getPracticas(), selected.getResultados() );
                 return peticion;
             }
         }
@@ -234,6 +205,16 @@ public class ControllerPracticasPeticiones {
     public void setResultadoToPractica (PracticaPeticionDto practicaDto, PracticaPeticionDto peticionDto, Boolean resultado) {
         Peticiones peticion = listPeticiones.get(getPeticionIndex(peticionDto.getNumeroPeticion()));
         peticion.setResultadoToPractica(practicaDto.getCodigoPractica(), resultado);
+    }
+
+    public ArrayList<Resultado> getResultados (Integer numeroPeticion) {
+        for (Peticiones item: listPeticiones) {
+            if (item.getNumeroPeticion().equals(numeroPeticion)) {
+                return item.getResultados();
+            }
+        }
+
+        return null;
     }
 
 }
