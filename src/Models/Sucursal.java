@@ -60,6 +60,15 @@ public class Sucursal {
         peticionesList.remove(peticionIndex);
     }
 
+    public void eliminarPeticion (Integer codigoPeticion) {
+        for (int i = 0; i < getPeticionesList().size(); i++) {
+            if (getPeticionesList().get(i).getNumeroPeticion().equals(codigoPeticion)) {
+                peticionesList.remove(i);
+                return;
+            }
+        }
+    }
+
     private Integer getPeticionIndex (Peticiones peticion) {
         Integer peticionID = peticion.getNumeroPeticion();
         for (int i = 0; i < getPeticionesList().size(); i++) {

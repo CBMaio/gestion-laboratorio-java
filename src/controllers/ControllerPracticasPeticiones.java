@@ -129,10 +129,29 @@ public class ControllerPracticasPeticiones {
     public void deleteByCodigoPeticion(Integer cod){
         int index = getPeticionIndex(cod);
         if(index != -1){
-            listPeticiones.remove(index);
+            try {
+                deletePeticionFromPacienteExitosamente(cod);
+                deletePeticionFromSucursalExitosamente(cod);
+                listPeticiones.remove(index);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
+    public boolean deletePeticionFromPacienteExitosamente (Integer codigoPeticion) throws Exception {
+        Peticiones peticion = listPeticiones.get(getPeticionIndex(codigoPeticion));
+        ControllerPacienteSucursal controller = ControllerPacienteSucursal.getInstance();
+        PacienteSucursalDto pacienteDto = controller.getPacienteDTO(peticion.getPaciente().getDni());
+        return ControllerPacienteSucursal.getInstance().eliminarPeticionDePaciente(codigoPeticion, pacienteDto);
+    }
+
+    public boolean deletePeticionFromSucursalExitosamente (Integer codigoPeticion) throws Exception {
+        Peticiones peticion = listPeticiones.get(getPeticionIndex(codigoPeticion));
+        ControllerPacienteSucursal controller = ControllerPacienteSucursal.getInstance();
+        PacienteSucursalDto sucursalDto = controller.getSucursalDTO(peticion.getSucursal().getNumeroSucursal());
+        return ControllerPacienteSucursal.getInstance().eliminarPeticionDeSucursal(codigoPeticion, sucursalDto);
+    }
     private int getPracticaIndex(Integer cod){
         for (int i=0;i<listPracticas.size();i++){
             if(listPracticas.get(i).getCodigo() != null && listPracticas.get(i).getCodigo().equals(cod)){

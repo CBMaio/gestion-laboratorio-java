@@ -97,6 +97,15 @@ public class Paciente {
         listPeticiones.add(peticion);
     }
 
+    public void eliminarPeticion (Integer codigoPeticion) {
+        for (int i = 0; i < getPeticiones().size(); i++) {
+            if (getPeticiones().get(i).getNumeroPeticion().equals(codigoPeticion)) {
+                listPeticiones.remove(i);
+                return;
+            }
+        }
+    }
+
     public ArrayList<Peticiones> getPeticiones () {
         return listPeticiones;
     }

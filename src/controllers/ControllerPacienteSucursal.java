@@ -218,6 +218,20 @@ public class ControllerPacienteSucursal {
         return true;
     }
 
+    public boolean eliminarPeticionDePaciente (Integer codPeticion, PacienteSucursalDto pacienteDto){
+        Integer pacienteIndex = getPacienteIndex(pacienteDto.getIdPaciente());
+        Paciente paciente = pacientesArrayList.get(pacienteIndex);
+        paciente.eliminarPeticion(codPeticion);
+        return true;
+    }
+
+    public boolean eliminarPeticionDeSucursal (Integer codPeticion, PacienteSucursalDto sucursalDto){
+        Integer sucursalIndex = getSucursalIndex(sucursalDto.getNumeroSucursal());
+        Sucursal sucursal = sucursalesArrayList.get(sucursalIndex);
+        sucursal.eliminarPeticion(codPeticion);
+        return true;
+    }
+
     public boolean asociarPeticionASucursal (Peticiones peticion, PacienteSucursalDto sucursalDto){
         Integer sucursalIndex = getSucursalIndex(sucursalDto.getNumeroSucursal());
         Sucursal sucursal = sucursalesArrayList.get(sucursalIndex);
