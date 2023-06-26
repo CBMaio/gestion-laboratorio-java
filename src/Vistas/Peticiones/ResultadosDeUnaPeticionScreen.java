@@ -78,23 +78,7 @@ public class ResultadosDeUnaPeticionScreen extends JDialog {
             pnlMainScreen.add(resultadoLabel);
         }
 
-//        if (resultadosPendientes() > 0) {
-//            JLabel message = new JLabel();
-//            message.setText("Faltan " + resultadosPendientes().toString() + " resultados");
-//            pnlMainScreen.add(message);
-//        }
         pnlMainScreen.validate();
     }
-
-    private Integer resultadosPendientes () {
-        Integer cantPracticas = peticionData.getPracticas().size();
-        Integer cantResultados = peticionData.getResultados().size();
-        if (cantResultados == cantPracticas) {
-            return 0;
-        }
-
-        return cantPracticas - cantResultados;
-    }
-
 
 }

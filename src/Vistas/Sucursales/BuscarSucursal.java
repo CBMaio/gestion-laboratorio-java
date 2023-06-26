@@ -19,7 +19,7 @@ public class BuscarSucursal extends JDialog {
     private PacienteSucursalDto sucursalData;
     private BuscarSucursal self;
 
-    public BuscarSucursal (Window owner, String title) {
+    public BuscarSucursal (Window owner, String title, String action) {
         super(owner, title);
         this.setContentPane(pnlPrincipal);
         this.setModal(true);
@@ -27,15 +27,20 @@ public class BuscarSucursal extends JDialog {
         this.setSize(450,200);
         this.setLocationRelativeTo(null);
         this.self = this;
-        events();
+        events(action);
     }
 
-    private void events () {
+    private void events (String action) {
         buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    buscarSucursal(numeroInput.getText());
+                    if (!buscarSucursalExitosamente(numeroInput.getText())) {
+                        return;
+                    }
+                    openScreen(action);
+                    numeroInput.setText(null);
+                    numeroInput.requestFocus();
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
@@ -43,20 +48,43 @@ public class BuscarSucursal extends JDialog {
         });
     }
 
-    private void buscarSucursal (String id) throws Exception {
+    private Boolean buscarSucursalExitosamente (String id) throws Exception {
         if (Utils.isNumeric(id)) {
             ControllerPacienteSucursal controller = ControllerPacienteSucursal.getInstance();
             if (controller.sucursalExistente(Integer.parseInt(id))) {
                 PacienteSucursalDto sucursalDto = controller.getSucursalDTO(Integer.parseInt(id));
                 this.sucursalData = sucursalDto;
-                ModificaciónSucursalesScreen form = new ModificaciónSucursalesScreen(self, "Sucursales", sucursalData);
-                form.setVisible(true);
+                return true;
             } else  {
                 JOptionPane.showMessageDialog(null, "Sucursal no encontrada");
+                return false;
             }
         }
 
-        numeroInput.setText(null);
-        numeroInput.requestFocus();
+        return false;
     }
+
+    private void openScreen (String action) {
+        switch (action) {
+            case "modificacion":
+                openModificarSucursalScreen();
+                break;
+            case "peticiones":
+                openPeticionesDeSucursalScreen();
+                break;
+        }
+    }
+
+    private void openModificarSucursalScreen () {
+        ModificaciónSucursalesScreen form = new ModificaciónSucursalesScreen(self, "Sucursales", sucursalData);
+        form.setVisible(true);
+    }
+
+    private void openPeticionesDeSucursalScreen () {
+        PeticionesDeSucursalScreen form = new PeticionesDeSucursalScreen(self, "Sucursales", sucursalData);
+        form.setVisible(true);
+    }
+
+
 }
+

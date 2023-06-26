@@ -1,8 +1,6 @@
 package Vistas.Sucursales;
 
-import Models.Paciente;
 import Models.Sucursal;
-import Vistas.Listas.ListaPacientes;
 import Vistas.Listas.ListaSucursal;
 import Vistas.utils.ListaModel;
 import controllers.ControllerPacienteSucursal;
@@ -21,6 +19,7 @@ public class SucursalScreen extends JDialog {
     private JButton bajaButton;
     private JButton modificaciónButton;
     private JButton listarSucursalesButton;
+    private JButton peticionesDeUnaSucursalButton;
     private SucursalScreen self;
     private ListaModel model = new ListaModel();
 
@@ -46,7 +45,7 @@ public class SucursalScreen extends JDialog {
         modificaciónButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                BuscarSucursal form = new BuscarSucursal(self, "Sucursales");
+                BuscarSucursal form = new BuscarSucursal(self, "Sucursales", "modificacion");
                 form.setVisible(true);
             }
         });
@@ -67,6 +66,13 @@ public class SucursalScreen extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 BajaSucursalScreen form = new BajaSucursalScreen(self, "Sucursales");
+                form.setVisible(true);
+            }
+        });
+        peticionesDeUnaSucursalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BuscarSucursal form = new BuscarSucursal(self, "Sucursales", "peticiones");
                 form.setVisible(true);
             }
         });
