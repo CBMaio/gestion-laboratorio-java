@@ -88,6 +88,20 @@ public class PeticionesScreen extends JDialog {
                 form.setVisible(true);
             }
         });
+        modificaciónButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BuscarPeticion form = new BuscarPeticion(self, "Peticiones", "modificarPeticion");
+                form.setVisible(true);
+            }
+        });
+        bajaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                BajaPeticionScreen form = new BajaPeticionScreen(self, "Peticiones");
+                form.setVisible(true);
+            }
+        });
     }
 
     private ListaModel getPeticionesParaMostrar () throws Exception {

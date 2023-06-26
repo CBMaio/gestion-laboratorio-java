@@ -77,6 +77,12 @@ public class BuscarPeticion extends JDialog {
             case "verResultados":
                 openVerResultadosScreen();
                 break;
+            case "modificarPeticion":
+                openModificarPeticion();
+                break;
+            case "eliminarPeticion":
+                openEliminarPeticion();
+                break;
         }
     }
 
@@ -92,6 +98,16 @@ public class BuscarPeticion extends JDialog {
         }
         ResultadosDeUnaPeticionScreen screen = new ResultadosDeUnaPeticionScreen(self, "Peticiones", peticionData);
         screen.setVisible(true);
+    }
+
+    private void openModificarPeticion () {
+        ModificarPeticionScreen form = new ModificarPeticionScreen(self, "Peticiones", peticionData);
+        form.setVisible(true);
+    }
+
+    private void openEliminarPeticion () {
+        ModificarPeticionScreen form = new ModificarPeticionScreen(self, "Peticiones", peticionData);
+        form.setVisible(true);
     }
 
 }

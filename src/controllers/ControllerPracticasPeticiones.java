@@ -126,6 +126,13 @@ public class ControllerPracticasPeticiones {
         }
     }
 
+    public void deleteByCodigoPeticion(Integer cod){
+        int index = getPeticionIndex(cod);
+        if(index != -1){
+            listPeticiones.remove(index);
+        }
+    }
+
     private int getPracticaIndex(Integer cod){
         for (int i=0;i<listPracticas.size();i++){
             if(listPracticas.get(i).getCodigo() != null && listPracticas.get(i).getCodigo().equals(cod)){
@@ -162,6 +169,24 @@ public class ControllerPracticasPeticiones {
         listPracticas.get(indexPractica).setTiempoDeDemora(dto.getHorasDeDemora());
     }
 
+    public void modificarPeticion (PracticaPeticionDto dto) {
+        ControllerPacienteSucursal controllerPacienteSucursal = null;
+        try {
+            controllerPacienteSucursal = ControllerPacienteSucursal.getInstance();
+            PacienteSucursalDto pacientDto = controllerPacienteSucursal.getPacienteDTO(dto.getPaciente().getIdPaciente());
+            PacienteSucursalDto sucursalDto = controllerPacienteSucursal.getSucursalDTO(dto.getSucursal().getNumeroSucursal());
+            Paciente paciente = controllerPacienteSucursal.getPacienteByDto(pacientDto);
+            Sucursal sucursal = controllerPacienteSucursal.getSucursalByDto(sucursalDto);
+            Integer indexPeticion = getPeticionIndex(dto.getNumeroPeticion());
+            listPeticiones.get(indexPeticion).setFechaCarga(dto.getFechaCarga());
+            listPeticiones.get(indexPeticion).setFechaEntrega(dto.getFechaEntrega());
+            listPeticiones.get(indexPeticion).setPaciente(paciente);
+            listPeticiones.get(indexPeticion).setSucursal(sucursal);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void addPracticaToPeticion (PracticaPeticionDto peticionDto, Integer codigoPractica) {
         Integer practicaIndex = getPracticaIndex(codigoPractica);
         Integer peticionIndex = getPeticionIndex(peticionDto.getNumeroPeticion());
@@ -186,6 +211,12 @@ public class ControllerPracticasPeticiones {
     }
 
     public PracticaPeticionDto getPeticionDto (Integer peticionId) {
+        ControllerPacienteSucursal controllerSucursal = null;
+        try {
+            controllerSucursal = ControllerPacienteSucursal.getInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         for (int i=0;i<listPeticiones.size();i++){
             if(listPeticiones.get(i).getNumeroPeticion().equals(peticionId)){
                 Peticiones selected = listPeticiones.get(i);
@@ -195,7 +226,8 @@ public class ControllerPracticasPeticiones {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                PracticaPeticionDto peticion = new PracticaPeticionDto(selected.getNumeroPeticion(), paciente, selected.getFechaCarga(), selected.getFechaEntrega(), selected.getPracticas(), selected.getResultados() );
+                PacienteSucursalDto sucursalDto = controllerSucursal.getSucursalDTO(selected.getSucursal().getNumeroSucursal());
+                PracticaPeticionDto peticion = new PracticaPeticionDto(selected.getNumeroPeticion(), paciente, selected.getFechaCarga(), selected.getFechaEntrega(), selected.getPracticas(), selected.getResultados(), sucursalDto );
                 return peticion;
             }
         }

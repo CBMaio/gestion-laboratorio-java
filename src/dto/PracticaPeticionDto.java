@@ -53,13 +53,14 @@ public class PracticaPeticionDto {
         this.sucursal = sucursal;
     }
 
-    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente, String fechaCarga, String fechaEntrega, ArrayList<Practica> practicas, ArrayList<Resultado> resultados) {
+    public PracticaPeticionDto (Integer numeroPeticion, PacienteSucursalDto paciente, String fechaCarga, String fechaEntrega, ArrayList<Practica> practicas, ArrayList<Resultado> resultados, PacienteSucursalDto sucursal) {
         this.numeroPeticion = numeroPeticion;
         this.paciente = paciente;
         this.fechaCarga = fechaCarga;
         this.fechaEntrega = fechaEntrega;
         this.practicas = practicas;
         this.resultados = resultados;
+        this.sucursal = sucursal;
     }
 
     public Integer getNumeroPeticion() { return numeroPeticion; }
@@ -180,4 +181,6 @@ public class PracticaPeticionDto {
     public void setSucursal(PacienteSucursalDto sucursal) {
         this.sucursal = sucursal;
     }
+
+
 }

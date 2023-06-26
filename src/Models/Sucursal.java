@@ -50,4 +50,24 @@ public class Sucursal {
     public ArrayList<Peticiones> getPeticionesList () {
         return this.peticionesList;
     }
+
+    public void eliminarPeticion (Peticiones peticion) {
+        Integer peticionIndex = getPeticionIndex(peticion);
+        if (peticionIndex.equals(-1)) {
+            return;
+        }
+
+        peticionesList.remove(peticionIndex);
+    }
+
+    private Integer getPeticionIndex (Peticiones peticion) {
+        Integer peticionID = peticion.getNumeroPeticion();
+        for (int i = 0; i < getPeticionesList().size(); i++) {
+            if(peticionesList.get(i).getNumeroPeticion().equals(peticionID))  {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }

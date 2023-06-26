@@ -222,6 +222,7 @@ public class ControllerPacienteSucursal {
         Integer sucursalIndex = getSucursalIndex(sucursalDto.getNumeroSucursal());
         Sucursal sucursal = sucursalesArrayList.get(sucursalIndex);
         sucursal.agregarPeticion(peticion);
+        peticion.setSucursal(sucursal);
         return true;
     }
 
@@ -257,5 +258,45 @@ public class ControllerPacienteSucursal {
         }
 
         return false;
+    }
+
+    public Boolean sucursalTienePeticionesActivas (PacienteSucursalDto sucursalDto) {
+        ArrayList<Peticiones> peticionesDeSucursal = this.getPeticionesPorSucursaL(sucursalDto);
+        if (peticionesDeSucursal.size() > 0 && !this.sucursalTienePeticionesFinalizadas(sucursalDto)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void derivarPeticionesActivas(PacienteSucursalDto sucursalOrigenDTO, PacienteSucursalDto sucursalDestinoDTO) {
+        Integer sucursalIndex = getSucursalIndex(sucursalOrigenDTO.getNumeroSucursal());
+        Sucursal sucursalOrigen = sucursalesArrayList.get(sucursalIndex);
+        for (Peticiones peticion: sucursalOrigen.getPeticionesList()) {
+            asociarPeticionASucursal(peticion, sucursalDestinoDTO);
+        }
+        sucursalOrigen.setPeticiones(new ArrayList<Peticiones>());
+    }
+
+    public Paciente getPacienteByDto (PacienteSucursalDto dto) {
+        for (Paciente item: pacientesArrayList) {
+            if(item.getDni().equals(dto.getIdPaciente())) {
+                return item;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Paciente no encontrado");
+        return null;
+    }
+
+    public Sucursal getSucursalByDto (PacienteSucursalDto dto) {
+        for (Sucursal item: sucursalesArrayList) {
+            if(item.getNumeroSucursal().equals(dto.getNumeroSucursal())) {
+                return item;
+            }
+        }
+
+        JOptionPane.showMessageDialog(null, "Sucursal no encontrada");
+        return null;
     }
 }
